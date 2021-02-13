@@ -8,6 +8,7 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
   defaultValue,
   onChange,
   onClose,
+  rtl,
 }) => {
   const [monthData, setMonthData] = useState<OptionType[]>([]);
   const [yearsData, setYearsData] = useState<OptionType[]>([]);
@@ -164,32 +165,38 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
   };
 
   return (
-    <div className="infinite-container">
-      <div className="picker-container">
+    <div
+      className={
+        rtl
+          ? "wye-datetimepicker-infinite-container wye-datetimepicker-infinite-container-rtl"
+          : "wye-datetimepicker-infinite-container"
+      }
+    >
+      <div className="wye-datetimepicker-picker-container">
         {monthData.length > 0 && (
           <div onWheel={handleWheelMonth} onTouchMove={handleWheelMonth}>
             <div
-              className="other"
+              className="wye-datetimepicker-other"
               onClick={() => setMonth(monthData[0].value)}
               style={{ opacity: 0.3 }}
             >
               {monthData[0].label}
             </div>
             <div
-              className="other"
+              className="wye-datetimepicker-other"
               onClick={() => setMonth(monthData[1].value)}
               style={{ opacity: 0.5 }}
             >
               {monthData[1].label}
             </div>
             <div
-              className="target"
-              style={{ marginLeft: "-20px" }}
+              className="wye-datetimepicker-target"
+              style={{ marginLeft: rtl ? "-20px" : "0" }}
               onClick={() => setIsEditMonth(true)}
             >
               {isEditMonth ? (
                 <input
-                  className="input-month"
+                  className="wye-datetimepicker-input-month"
                   autoFocus
                   ref={monthesRef}
                   type="text"
@@ -208,14 +215,14 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
               )}
             </div>
             <div
-              className="other"
+              className="wye-datetimepicker-other"
               onClick={() => setMonth(monthData[3].value)}
               style={{ opacity: 0.5 }}
             >
               {monthData[3].label}
             </div>
             <div
-              className="other"
+              className="wye-datetimepicker-other"
               onClick={() => setMonth(monthData[4].value)}
               style={{ opacity: 0.3 }}
             >
@@ -226,23 +233,26 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
         {yearsData.length > 0 && (
           <div onWheel={handleWheelYear} onTouchMove={handleWheelYear}>
             <div
-              className="other"
+              className="wye-datetimepicker-other"
               onClick={() => setYear(yearsData[0].value)}
               style={{ opacity: 0.3 }}
             >
               {yearsData[0].label}
             </div>
             <div
-              className="other"
+              className="wye-datetimepicker-other"
               onClick={() => setYear(yearsData[1].value)}
               style={{ opacity: 0.5 }}
             >
               {yearsData[1].label}
             </div>
-            <div className="target" onClick={() => setIsEditYear(true)}>
+            <div
+              className="wye-datetimepicker-target"
+              onClick={() => setIsEditYear(true)}
+            >
               {isEditYear ? (
                 <input
-                  className="input-year"
+                  className="wye-datetimepicker-input-year"
                   autoFocus
                   ref={yearsRef}
                   type="text"
@@ -261,14 +271,14 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
               )}
             </div>
             <div
-              className="other"
+              className="wye-datetimepicker-other"
               onClick={() => setYear(yearsData[3].value)}
               style={{ opacity: 0.5 }}
             >
               {yearsData[3].label}
             </div>
             <div
-              className="other"
+              className="wye-datetimepicker-other"
               onClick={() => setYear(yearsData[4].value)}
               style={{ opacity: 0.3 }}
             >
@@ -278,7 +288,7 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
         )}
       </div>
       <button
-        className="primary"
+        className="wye-datetimepicker-primary"
         type="button"
         style={{ width: "100%", marginTop: "1rem" }}
         onClick={() => {

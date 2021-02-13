@@ -1,10 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import DateInputType from "../Types/DateInput";
+import calendarIcon from "../styles/Icons/Calendar.svg";
+import clearIcon from "../styles/Icons/Clear.svg";
 
-let calendarIcon = require("../styles/Icons/calendar.svg");
-let clearIcon = require("../styles/Icons/clear.svg");
-
-const DateInput: FC<DateInputType> = ({
+export const DateInput: FC<DateInputType> = ({
   name,
   value,
   rtl = false,
@@ -64,19 +63,19 @@ const DateInput: FC<DateInputType> = ({
   const mergeClasses = () => {
     if (rtl) {
       if (disabled) {
-        return "dateinput dateinput-rtl dateinput-disabled";
+        return "wye-datetimepicker-dateinput wye-datetimepicker-dateinput-rtl wye-datetimepicker-dateinput-disabled";
       } else if (readonly) {
-        return "dateinput dateinput-rtl dateinput-readonly";
+        return "wye-datetimepicker-dateinput wye-datetimepicker-dateinput-rtl wye-datetimepicker-dateinput-readonly";
       } else {
-        return "dateinput dateinput-rtl";
+        return "wye-datetimepicker-dateinput wye-datetimepicker-dateinput-rtl";
       }
     } else {
       if (disabled) {
-        return "dateinput dateinput-disabled";
+        return "wye-datetimepicker-dateinput wye-datetimepicker-dateinput-disabled";
       } else if (readonly) {
-        return "dateinput dateinput-readonly";
+        return "wye-datetimepicker-dateinput wye-datetimepicker-dateinput-readonly";
       } else {
-        return "dateinput";
+        return "wye-datetimepicker-dateinput";
       }
     }
   };
@@ -116,7 +115,7 @@ const DateInput: FC<DateInputType> = ({
       />
       {allowClear && (
         <img
-          className="clear"
+          className="wye-datetimepicker-clear"
           src={clearIcon}
           alt="clearinput"
           onClick={clear}
@@ -126,5 +125,3 @@ const DateInput: FC<DateInputType> = ({
     </div>
   );
 };
-
-export default DateInput;

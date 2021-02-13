@@ -17,8 +17,9 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "example", "rollup.config.js"]
+  "include": ["src/**/*", "src/custom.d.ts"],
+  "exclude": ["node_modules", "dist", "rollup.config.js"]
 }

@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 import { Dayjs } from "dayjs";
+import { Locale } from "dayjs/locale/*";
 
 interface DateTimePickerType {
   name: string;
@@ -12,6 +13,8 @@ interface DateTimePickerType {
   onChange?: (value: Dayjs) => void;
   style?: CSSProperties;
   rtl?: boolean;
+  lang: Locale;
+  width?: string;
 }
 
 export default DateTimePickerType;

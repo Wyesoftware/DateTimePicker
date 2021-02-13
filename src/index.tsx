@@ -1,17 +1,14 @@
 import React, { FC, useEffect, useState } from "react";
 import "./styles/index.scss";
+import arrowBack from "./styles/Icons/ArrowBack.svg";
+import arrowClose from "./styles/Icons/ArrowClose.svg";
+import arrowForward from "./styles/Icons/ArrowForward.svg";
+import arrowOpen from "./styles/Icons/ArrowOpen.svg";
 import dayjs, { Dayjs } from "dayjs";
 import { useLayer } from "react-laag";
-import * as heIL from "dayjs/locale/he";
-import * as enUS from "dayjs/locale/en";
 import { InfiniteMonthYearsSelect } from "./Components/InfiniteMonthYearsSelect";
-import DateInput from "./Components/DateInput";
+import { DateInput } from "./Components/DateInput";
 import DateTimePickerType from "./Types/DateTimePicker";
-
-let arrowClose = require("../styles/Icons/arrowClose.svg");
-let arrowOpen = require("../styles/Icons/arrowOpen.svg");
-let arrowBack = require("../styles/Icons/arrowBack.svg");
-let arrowForward = require("../styles/Icons/arrowForward.svg");
 
 let customParseFormat = require("dayjs/plugin/customParseFormat");
 dayjs.extend(customParseFormat);
@@ -27,8 +24,10 @@ const DateTimePicker: FC<DateTimePickerType> = ({
   onChange,
   style,
   rtl = false,
+  lang,
+  width = "100%",
 }) => {
-  dayjs.locale(rtl ? heIL : enUS);
+  dayjs.locale(lang);
 
   const [selectedMonth, setSelectedMonth] = useState<{
     month: number;
@@ -204,16 +203,16 @@ const DateTimePicker: FC<DateTimePickerType> = ({
   };
 
   const mergeDayClass = (value: string) => {
-    let className = "day ";
+    let className = "wye-datetimepicker-day ";
 
     if (dayjs(value).format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD")) {
-      className += "isToday ";
+      className += "wye-datetimepicker-isToday ";
     }
     if (
       dayjs(value).format("YYYY-MM-DD") ===
       dayjs(selectedDay).format("YYYY-MM-DD")
     ) {
-      className += "isSelected";
+      className += "wye-datetimepicker-isSelected";
     }
 
     return className;
@@ -239,8 +238,12 @@ const DateTimePicker: FC<DateTimePickerType> = ({
   };
 
   return (
-    <div id="container" className={rtl ? "rtl" : undefined}>
-      <div className="picker-container" {...triggerProps}>
+    <div
+      id="wye-datetimepicker-container"
+      className={rtl ? "wye-datetimepicker-rtl" : "wye-datetimepicker-ltr"}
+      style={{ width: width }}
+    >
+      <div className="wye-datetimepicker-picker-container" {...triggerProps}>
         <DateInput
           name={name}
           value={inputValue}
@@ -250,7 +253,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
               setIsOptionsOpen(true);
             }
           }}
-          onChange={(value) => manualChange(value)}
+          onChange={(value: any) => manualChange(value)}
           onBlur={onBlur}
           placeholder={hoverPlaceholder ? hoverPlaceholder : "DD / MM / YYYY"}
           allowClear={allowClear}
@@ -260,10 +263,21 @@ const DateTimePicker: FC<DateTimePickerType> = ({
         />
         {isOptionsOpen &&
           renderLayer(
-            <div className={rtl ? "options rtl" : "options"} {...layerProps}>
-              <div className="calendar-actions">
+            <div
+              className={
+                rtl
+                  ? "wye-datetimepicker-options wye-datetimepicker-rtl"
+                  : "wye-datetimepicker-options wye-datetimepicker-ltr"
+              }
+              {...layerProps}
+            >
+              <div className="wye-datetimepicker-calendar-actions">
                 <div
-                  className="currentmonth"
+                  className={
+                    rtl
+                      ? "wye-datetimepicker-currentmonth wye-datetimepicker-currentmonth-rtl"
+                      : "wye-datetimepicker-currentmonth"
+                  }
                   onClick={() => setIsActionsOpen(!isActionsOpen)}
                 >
                   {dayjs().month(selectedMonth.month).format("MMMM") +
@@ -272,10 +286,20 @@ const DateTimePicker: FC<DateTimePickerType> = ({
                   {isActionsOpen ? (
                     <img src={arrowClose} alt="arrowClose" />
                   ) : (
-                    <img src={arrowOpen} alt="arrowOpen" />
+                    <img
+                      src={arrowOpen}
+                      className={rtl ? undefined : "wye-datetimepicker-rotate"}
+                      alt="arrowOpen"
+                    />
                   )}
                 </div>
-                <div className="actions">
+                <div
+                  className={
+                    rtl
+                      ? "wye-datetimepicker-actions wye-datetimepicker-actions-rtl"
+                      : "wye-datetimepicker-actions"
+                  }
+                >
                   {rtl ? (
                     <>
                       <img src={arrowBack} alt="arrowBack" onClick={goBack} />
@@ -298,11 +322,12 @@ const DateTimePicker: FC<DateTimePickerType> = ({
                 </div>
               </div>
               {isActionsOpen ? (
-                <div className="date-actions">
+                <div className="wye-datetimepicker-date-actions">
                   <InfiniteMonthYearsSelect
                     defaultValue={selectedDay}
                     onChange={(value) => setNewMonthYear(value)}
                     onClose={(value) => setIsActionsOpen(value)}
+                    rtl={rtl}
                   />
                 </div>
               ) : (
@@ -360,7 +385,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
                     </tbody>
                   </table>
                   <button
-                    className="primary"
+                    className="wye-datetimepicker-primary"
                     type="button"
                     style={{ width: "100%", marginTop: "1rem" }}
                     onClick={() => {

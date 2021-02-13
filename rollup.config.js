@@ -1,5 +1,6 @@
 import sass from "rollup-plugin-sass";
 import typescript from "rollup-plugin-typescript2";
+import svg from "rollup-plugin-svg";
 
 import pkg from "./package.json";
 
@@ -14,6 +15,6 @@ export default {
       strict: false,
     },
   ],
-  plugins: [sass({ insert: true }), typescript()],
-  external: ["react", "react-dom"],
+  plugins: [sass({ insert: true }), svg({ base64: true }), typescript()],
+  external: ["react", "react-dom", "dayjs", "react-laag"],
 };

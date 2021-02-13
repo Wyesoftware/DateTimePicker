@@ -1,20 +1,18 @@
-body {
-  margin: 0;
-  padding: 1rem;
+.wye-datetimepicker-ltr {
+  direction: ltr !important;
+}
+.wye-datetimepicker-rtl {
+  direction: rtl !important;
+}
+
+#wye-datetimepicker-container {
+  display: flex;
+  flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-.rtl {
-  direction: rtl;
-}
-
-#container {
-  display: flex;
-  flex-direction: column;
-
-  .picker-container {
+  .wye-datetimepicker-picker-container {
     position: relative;
     width: fit-content;
     z-index: 999999;
@@ -22,7 +20,7 @@ body {
   }
 }
 
-.dateinput {
+.wye-datetimepicker-dateinput {
   direction: ltr !important;
   width: 100%;
   display: flex;
@@ -44,18 +42,18 @@ body {
     padding: 0 0.3rem;
     cursor: text;
   }
-  img.clear {
+  img.wye-datetimepicker-clear {
     padding: 0 0.1rem;
     cursor: pointer;
   }
 }
 
-.dateinput:hover {
+.wye-datetimepicker-dateinput:hover {
   border-color: #60a5fa;
   transition: 300ms;
 }
 
-.dateinput-disabled {
+.wye-datetimepicker-dateinput-disabled {
   cursor: not-allowed;
   background-color: rgba(239, 239, 239, 0.3);
   input {
@@ -66,7 +64,7 @@ body {
   }
 }
 
-.dateinput-readonly {
+.wye-datetimepicker-dateinput-readonly {
   cursor: not-allowed;
   input {
     cursor: not-allowed;
@@ -76,14 +74,14 @@ body {
   }
 }
 
-.dateinput-rtl {
+.wye-datetimepicker-dateinput-rtl {
   flex-direction: row-reverse;
   input {
     text-align: right;
   }
 }
 
-.options {
+.wye-datetimepicker-options {
   background-color: white;
   overflow-y: auto;
   height: auto;
@@ -91,15 +89,35 @@ body {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
     rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
   z-index: 999999;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  table {
+    display: table;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: center;
+    tr {
+      border: 0;
+      th {
+        opacity: 0.6;
+        padding-bottom: 0.3rem;
+      }
+      td {
+        border: 0;
+      }
+    }
+  }
 }
 
-.calendar-actions {
+.wye-datetimepicker-calendar-actions {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -107,51 +125,51 @@ body {
   margin: 0.5rem;
 }
 
-.currentmonth {
+.wye-datetimepicker-currentmonth {
   display: flex;
   flex-direction: row;
   align-items: center;
   cursor: pointer;
   img {
+    margin-left: 0.2rem;
+  }
+}
+
+.wye-datetimepicker-currentmonth-rtl {
+  img {
+    margin-left: 0;
     margin-right: 0.2rem;
   }
 }
 
-.actions {
+.wye-datetimepicker-rotate {
+  transform: rotate(180deg);
+}
+
+.wye-datetimepicker-actions {
   display: flex;
   flex-direction: row;
   align-items: center;
   img {
-    margin-right: 0.5rem;
+    margin-left: 0.5rem;
     cursor: pointer;
   }
 }
 
-.date-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 15rem;
-}
-
-table {
-  display: table;
-  table-layout: fixed;
-  border-collapse: collapse;
-  text-align: center;
-  tr {
-    border: 0;
-    th {
-      opacity: 0.6;
-      padding-bottom: 0.3rem;
-    }
-    td {
-      border: 0;
-    }
+.wye-datetimepicker-actions-rtl {
+  img {
+    margin-left: 0;
+    margin-right: 0.5rem;
   }
 }
 
-.day {
+.wye-datetimepicker-date-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wye-datetimepicker-day {
   padding: 0.5rem;
   border-radius: 3px;
   cursor: pointer;
@@ -159,31 +177,31 @@ table {
   background: unset;
 }
 
-.day.isSelected {
+.wye-datetimepicker-day.wye-datetimepicker-isSelected {
   color: #1e88e5;
   background: rgba(30, 136, 229, 0.2);
 }
 
-.day.isSelected.isToday {
+.wye-datetimepicker-day.wye-datetimepicker-isSelected.wye-datetimepicker-isToday {
   color: #fff;
   background: #1e88e5;
 }
 
-.day:hover {
+.wye-datetimepicker-day:hover {
   background: rgba(30, 136, 229, 0.2);
   color: #1e88e5;
 }
 
-.day.isToday {
+.wye-datetimepicker-day.wye-datetimepicker-isToday {
   font-weight: bolder;
 }
 
-.day:hover.isToday {
+.wye-datetimepicker-day:hover.wye-datetimepicker-isToday {
   background: #1e88e5;
   color: #fff;
 }
 
-button.primary {
+button.wye-datetimepicker-primary {
   background: #1e88e5;
   border: none;
   outline: none;
@@ -191,56 +209,62 @@ button.primary {
   padding: 0.5rem 0.3rem;
 }
 
-button.primary:hover {
+button.wye-datetimepicker-primary:hover {
   cursor: pointer;
   background: #3390e2;
 }
 
-.infinite-container {
+.wye-datetimepicker-infinite-container {
   display: flex;
   flex-direction: column;
   width: 100%;
 
-  .picker-container {
+  .wye-datetimepicker-picker-container {
     position: relative;
     display: flex;
     padding: 1rem 0;
     justify-content: space-between;
     scroll-behavior: smooth;
   }
+
+  .wye-datetimepicker-other {
+    padding: 0.2rem 2.5rem;
+    cursor: pointer;
+  }
+
+  .wye-datetimepicker-target {
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    padding: 0.2rem 2.5rem;
+    font-weight: bold;
+    cursor: text;
+  }
+
+  input.wye-datetimepicker-input-month {
+    background-color: #f5f5f5;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 3.7rem;
+    line-height: 1rem;
+    font-size: medium;
+    outline: none;
+  }
+
+  input.wye-datetimepicker-input-year {
+    background-color: #f5f5f5;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 2.2rem;
+    line-height: 1rem;
+    font-size: medium;
+    outline: none;
+  }
 }
 
-.other {
-  padding: 0.2rem 2.5rem;
-  cursor: pointer;
-}
-
-.target {
-  background-color: #f5f5f5;
-  border-radius: 3px;
-  padding: 0.2rem 2.5rem;
-  font-weight: bold;
-  cursor: text;
-}
-
-input.input-month {
-  background-color: #f5f5f5;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  width: 3.7rem;
-  line-height: 1rem;
-  font-size: medium;
-  outline: none;
-}
-
-input.input-year {
-  background-color: #f5f5f5;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  width: 2.2rem;
-  line-height: 1rem;
-  font-size: medium;
-  outline: none;
+.wye-datetimepicker-infinite-container-rtl {
+  input.wye-datetimepicker-input-month {
+    width: 5rem;
+  }
 }
