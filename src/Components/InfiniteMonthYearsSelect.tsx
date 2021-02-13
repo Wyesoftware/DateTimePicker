@@ -296,7 +296,7 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
           onClose(false);
         }}
       >
-        שמור
+        {rtl ? "שמור" : "Save"}
       </button>
     </div>
   );
