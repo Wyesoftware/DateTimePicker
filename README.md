@@ -31,20 +31,20 @@ This component has full typescript support.
 
 ## Available props
 
-| Property     | Description                                      | Type          | Default | Required |
-| ------------ | ------------------------------------------------ | ------------- | ------- | -------- |
-| name         | Form name                                        | string        | -       | true     |
-| value        | The input content value                          | string        | -       | false    |
-| defaultValue | The initial input date                           | Dayjs         | dayjs() | false    |
-| disabled     | Whether the input is disabled                    | boolean       | false   | false    |
-| readonly     | Whether the input is readOnly                    | boolean       | false   | false    |
-| allowClear   | If allow to remove input content with clear icon | boolean       | false   | false    |
-| onBlur       | Callback when user remove focus                  | () => void    | -       | false    |
-| onChange     | Callback when user input                         | () => void    | -       | false    |
-| style        | The style of input                               | CSSProperties | -       | false    |
-| rtl          | Right-to-left direction of component             | bolean        | false   | false    |
-| lang         | Date package locale                              | Locale        | -       | true     |
-| width        | Width of main container                          | string        | "100%"  | false    |
+| Property     | Description                                      | Type                   | Default | Required |
+| ------------ | ------------------------------------------------ | ---------------------- | ------- | -------- |
+| name         | Form name                                        | string                 | -       | true     |
+| value        | The input content value                          | string                 | -       | false    |
+| defaultValue | The initial input date                           | Dayjs                  | dayjs() | false    |
+| disabled     | Whether the input is disabled                    | boolean                | false   | false    |
+| readonly     | Whether the input is readOnly                    | boolean                | false   | false    |
+| allowClear   | If allow to remove input content with clear icon | boolean                | false   | false    |
+| onBlur       | Callback when user remove focus                  | () => void             | -       | false    |
+| onChange     | Callback when user input                         | (value: Dayjs) => void | -       | false    |
+| style        | The style of input                               | CSSProperties          | -       | false    |
+| rtl          | Right-to-left direction of component             | bolean                 | false   | false    |
+| lang         | Date package locale                              | Locale                 | -       | true     |
+| width        | Width of main container                          | string                 | "100%"  | false    |
 
 ## Future updates
 

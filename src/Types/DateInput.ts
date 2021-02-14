@@ -7,6 +7,7 @@ interface DateInputType {
   onClick: () => void;
   onChange: (value: string) => void;
   onBlur?: () => void;
+  setIsOpenOptions: (value: boolean) => void;
   placeholder: string;
   allowClear?: boolean;
   disabled?: boolean;

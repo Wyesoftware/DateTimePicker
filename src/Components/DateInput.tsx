@@ -10,6 +10,7 @@ export const DateInput: FC<DateInputType> = ({
   onClick,
   onChange,
   onBlur,
+  setIsOpenOptions,
   placeholder,
   allowClear,
   disabled,
@@ -106,6 +107,11 @@ export const DateInput: FC<DateInputType> = ({
           inputBlur(e.currentTarget.value);
           if (onBlur) {
             onBlur();
+          }
+        }}
+        onKeyUp={(e) => {
+          if (e.key === "Enter" && e.currentTarget.value.length === 14) {
+            setIsOpenOptions(false);
           }
         }}
         value={inputValue}

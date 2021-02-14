@@ -253,8 +253,9 @@ const DateTimePicker: FC<DateTimePickerType> = ({
               setIsOptionsOpen(true);
             }
           }}
-          onChange={(value: any) => manualChange(value)}
+          onChange={(value: string) => manualChange(value)}
           onBlur={onBlur}
+          setIsOpenOptions={(value: boolean) => setIsOptionsOpen(value)}
           placeholder={hoverPlaceholder ? hoverPlaceholder : "DD / MM / YYYY"}
           allowClear={allowClear}
           disabled={disabled}
@@ -365,7 +366,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
                                     dayjs(day.date).format("DD / MM / YYYY")
                                   );
                                   if (onChange) {
-                                    onChange(dayjs(value, "DD / MM / YYYY"));
+                                    onChange(dayjs(day.date, "YYYY-MM-DD"));
                                   }
                                   setSelectedDay(dayjs(day.date));
                                   if (!day.isCurrentMonth) {
@@ -374,6 +375,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
                                       year: dayjs(day.date).year(),
                                     });
                                   }
+                                  setIsOptionsOpen(false);
                                 }}
                               >
                                 {dayjs(day.date).format("D")}
