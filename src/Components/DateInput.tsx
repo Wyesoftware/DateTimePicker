@@ -37,8 +37,8 @@ export const DateInput: FC<DateInputType> = ({
     let values = value.split("/").map(function (v) {
       return v.replace(/\D/g, "");
     });
-    if (values[0]) values[0] = checkValue(values[0], 12);
-    if (values[1]) values[1] = checkValue(values[1], 31);
+    if (values[0]) values[0] = checkValue(values[0], 31);
+    if (values[1]) values[1] = checkValue(values[1], 12);
     let output = values.map(function (v, i) {
       return v.length == 2 && i < 2 ? v + " / " : v;
     });
