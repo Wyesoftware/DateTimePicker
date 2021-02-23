@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { CSSProperties } from "react";
 
 interface DateInputType {
@@ -7,6 +8,7 @@ interface DateInputType {
   onClick: () => void;
   onChange: (value: string) => void;
   onBlur?: () => void;
+  disabledDate: (day: Dayjs) => boolean;
   setIsOpenOptions: (value: boolean) => void;
   placeholder: string;
   allowClear?: boolean;

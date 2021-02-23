@@ -8,7 +8,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useLayer } from "react-laag";
 import { InfiniteMonthYearsSelect } from "./Components/InfiniteMonthYearsSelect";
 import { DateInput } from "./Components/DateInput";
-import DateTimePickerType from "./Types/DateTimePicker";
+import DateTimePickerType, { WeekDay } from "./Types/DateTimePicker";
 
 let customParseFormat = require("dayjs/plugin/customParseFormat");
 dayjs.extend(customParseFormat);
@@ -22,6 +22,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
   allowClear = false,
   onBlur,
   onChange,
+  disabledDates,
   style,
   rtl = false,
   lang,
@@ -87,13 +88,20 @@ const DateTimePicker: FC<DateTimePickerType> = ({
           `${selectedMonth.year}-${selectedMonth.month + 1}-01`
         ).daysInMonth()
       ),
-    ].map((day, index) => {
+    ].map((_, index) => {
       return {
         date: dayjs(
           `${selectedMonth.year}-${selectedMonth.month + 1}-${index + 1}`
         ).format("YYYY-MM-DD"),
         dayOfMonth: index + 1,
         isCurrentMonth: true,
+        isDisabled:
+          disabledDates &&
+          disabledDates(
+            dayjs(
+              `${selectedMonth.year}-${selectedMonth.month + 1}-${index + 1}`
+            )
+          ),
       };
     });
 
@@ -111,19 +119,26 @@ const DateTimePicker: FC<DateTimePickerType> = ({
       .subtract(daysOfPreviousMonth, "day")
       .date();
 
-    let previousMonthDays = [...Array(daysOfPreviousMonth)].map(
-      (day, index) => {
-        return {
-          date: dayjs(
-            `${previousMonth.year()}-${previousMonth.month() + 1}-${
-              lastMondayOfPreviousMonth + index
-            }`
-          ).format("YYYY-MM-DD"),
-          dayOfMonth: lastMondayOfPreviousMonth + index,
-          isCurrentMonth: false,
-        };
-      }
-    );
+    let previousMonthDays = [...Array(daysOfPreviousMonth)].map((_, index) => {
+      return {
+        date: dayjs(
+          `${previousMonth.year()}-${previousMonth.month() + 1}-${
+            lastMondayOfPreviousMonth + index
+          }`
+        ).format("YYYY-MM-DD"),
+        dayOfMonth: lastMondayOfPreviousMonth + index,
+        isCurrentMonth: false,
+        isDisabled:
+          disabledDates &&
+          disabledDates(
+            dayjs(
+              `${previousMonth.year()}-${previousMonth.month() + 1}-${
+                lastMondayOfPreviousMonth + index
+              }`
+            )
+          ),
+      };
+    });
 
     const currentMonthLastDay = getWeekday(
       `${selectedMonth.year}-${selectedMonth.month + 1}-${
@@ -139,13 +154,18 @@ const DateTimePicker: FC<DateTimePickerType> = ({
       ? 7 - currentMonthLastDay
       : currentMonthLastDay;
 
-    let nextMonthDays = [...Array(daysOfNextMonth)].map((day, index) => {
+    let nextMonthDays = [...Array(daysOfNextMonth)].map((_, index) => {
       return {
         date: dayjs(
           `${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`
         ).format("YYYY-MM-DD"),
         dayOfMonth: index + 1,
         isCurrentMonth: false,
+        isDisabled:
+          disabledDates &&
+          disabledDates(
+            dayjs(`${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`)
+          ),
       };
     });
 
@@ -246,7 +266,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
       <div className="wye-datetimepicker-picker-container" {...triggerProps}>
         <DateInput
           name={name}
-          value={inputValue}
+          value={inputValue ? inputValue : ""}
           rtl={rtl}
           onClick={() => {
             if (!disabled && !readonly) {
@@ -255,6 +275,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
           }}
           onChange={(value: string) => manualChange(value)}
           onBlur={onBlur}
+          disabledDate={(day) => (disabledDates ? disabledDates(day) : false)}
           setIsOpenOptions={(value: boolean) => setIsOptionsOpen(value)}
           placeholder={hoverPlaceholder ? hoverPlaceholder : "DD / MM / YYYY"}
           allowClear={allowClear}
@@ -342,10 +363,15 @@ const DateTimePicker: FC<DateTimePickerType> = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {weeksAndDays?.map((week: any, i: number) => (
+                      {weeksAndDays?.map((week: WeekDay[], i: number) => (
                         <tr key={i}>
-                          {week.map((day: any, a: number) => (
+                          {week.map((day: WeekDay, a: number) => (
                             <td
+                              className={
+                                day.isDisabled
+                                  ? "wye-datetimepicker-disabledDay"
+                                  : undefined
+                              }
                               style={{
                                 opacity: day.isCurrentMonth ? 1 : 0.5,
                               }}
@@ -354,6 +380,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
                               <div
                                 className={mergeDayClass(day.date)}
                                 onMouseEnter={() =>
+                                  !day.isDisabled &&
                                   setHoverPlaceholder(
                                     dayjs(day.date).format("DD / MM / YYYY")
                                   )
@@ -362,20 +389,22 @@ const DateTimePicker: FC<DateTimePickerType> = ({
                                   setHoverPlaceholder(undefined)
                                 }
                                 onClick={() => {
-                                  setInputValue(
-                                    dayjs(day.date).format("DD / MM / YYYY")
-                                  );
-                                  if (onChange) {
-                                    onChange(dayjs(day.date, "YYYY-MM-DD"));
+                                  if (!day.isDisabled) {
+                                    setInputValue(
+                                      dayjs(day.date).format("DD / MM / YYYY")
+                                    );
+                                    if (onChange) {
+                                      onChange(dayjs(day.date, "YYYY-MM-DD"));
+                                    }
+                                    setSelectedDay(dayjs(day.date));
+                                    if (!day.isCurrentMonth) {
+                                      setSelectedMonth({
+                                        month: dayjs(day.date).month(),
+                                        year: dayjs(day.date).year(),
+                                      });
+                                    }
+                                    setIsOptionsOpen(false);
                                   }
-                                  setSelectedDay(dayjs(day.date));
-                                  if (!day.isCurrentMonth) {
-                                    setSelectedMonth({
-                                      month: dayjs(day.date).month(),
-                                      year: dayjs(day.date).year(),
-                                    });
-                                  }
-                                  setIsOptionsOpen(false);
                                 }}
                               >
                                 {dayjs(day.date).format("D")}

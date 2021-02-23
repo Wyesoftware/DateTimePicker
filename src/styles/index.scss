@@ -201,6 +201,19 @@
   color: #fff;
 }
 
+.wye-datetimepicker-disabledDay .wye-datetimepicker-day {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+  color: #bdbdbd;
+}
+
+.wye-datetimepicker-disabledDay
+  .wye-datetimepicker-day.wye-datetimepicker-isToday {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+  color: #1e88e5;
+}
+
 button.wye-datetimepicker-primary {
   background: #1e88e5;
   border: none;

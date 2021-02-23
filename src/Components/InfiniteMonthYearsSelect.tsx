@@ -53,34 +53,26 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
               element.value ===
               parseInt(target.subtract(2, "month").format("M"))
           )
-        ]
-      );
-      newData.push(
+        ],
         options[
           options.findIndex(
             (element: OptionType) =>
               element.value ===
               parseInt(target.subtract(1, "month").format("M"))
           )
-        ]
-      );
-      newData.push(
+        ],
         options[
           options.findIndex(
             (element: OptionType) =>
               element.value === parseInt(target.format("M"))
           )
-        ]
-      );
-      newData.push(
+        ],
         options[
           options.findIndex(
             (element: OptionType) =>
               element.value === parseInt(target.add(1, "month").format("M"))
           )
-        ]
-      );
-      newData.push(
+        ],
         options[
           options.findIndex(
             (element: OptionType) =>
@@ -93,26 +85,28 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
 
     let years: OptionType[] = [];
 
-    years.push({
-      label: target.add(2, "year").format("YYYY"),
-      value: parseInt(target.add(2, "year").format("YYYY")),
-    });
-    years.push({
-      label: target.add(1, "year").format("YYYY"),
-      value: parseInt(target.add(1, "year").format("YYYY")),
-    });
-    years.push({
-      label: target.format("YYYY"),
-      value: parseInt(target.format("YYYY")),
-    });
-    years.push({
-      label: target.subtract(1, "year").format("YYYY"),
-      value: parseInt(target.subtract(1, "year").format("YYYY")),
-    });
-    years.push({
-      label: target.subtract(2, "year").format("YYYY"),
-      value: parseInt(target.subtract(2, "year").format("YYYY")),
-    });
+    years.push(
+      {
+        label: target.add(2, "year").format("YYYY"),
+        value: parseInt(target.add(2, "year").format("YYYY")),
+      },
+      {
+        label: target.add(1, "year").format("YYYY"),
+        value: parseInt(target.add(1, "year").format("YYYY")),
+      },
+      {
+        label: target.format("YYYY"),
+        value: parseInt(target.format("YYYY")),
+      },
+      {
+        label: target.subtract(1, "year").format("YYYY"),
+        value: parseInt(target.subtract(1, "year").format("YYYY")),
+      },
+      {
+        label: target.subtract(2, "year").format("YYYY"),
+        value: parseInt(target.subtract(2, "year").format("YYYY")),
+      }
+    );
     setYearsData(years);
   }, [target]);
 

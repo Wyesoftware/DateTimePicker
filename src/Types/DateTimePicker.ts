@@ -11,10 +11,18 @@ interface DateTimePickerType {
   allowClear?: boolean;
   onBlur?: () => void;
   onChange?: (value: Dayjs) => void;
+  disabledDates?: (day: Dayjs) => boolean;
   style?: CSSProperties;
   rtl?: boolean;
   lang: Locale;
   width?: string;
+}
+
+export interface WeekDay {
+  date: string;
+  dayOfMonth: number;
+  isCurrentMonth: boolean;
+  isDisabled: boolean;
 }
 
 export default DateTimePickerType;

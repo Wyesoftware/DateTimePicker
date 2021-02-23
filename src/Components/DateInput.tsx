@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import DateInputType from "../Types/DateInput";
 import calendarIcon from "../styles/Icons/Calendar.svg";
 import clearIcon from "../styles/Icons/Clear.svg";
+import dayjs from "dayjs";
 
 export const DateInput: FC<DateInputType> = ({
   name,
@@ -10,6 +11,7 @@ export const DateInput: FC<DateInputType> = ({
   onClick,
   onChange,
   onBlur,
+  disabledDate,
   setIsOpenOptions,
   placeholder,
   allowClear,
@@ -55,7 +57,11 @@ export const DateInput: FC<DateInputType> = ({
     });
     let output = "";
 
-    if (values.length == 3 && values[2].length > 0) {
+    if (
+      values.length == 3 &&
+      values[2].length > 0 &&
+      !disabledDate(dayjs(value, "DD / MM / YYYY"))
+    ) {
       output = value;
     }
     setInputValue(output);
