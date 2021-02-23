@@ -33,6 +33,7 @@ This component has full typescript support.
 
 | Property      | Description                                      | Type                    | Default | Required |
 | ------------- | ------------------------------------------------ | ----------------------- | ------- | -------- |
+| ref           | Input ref                                        | RefObject               | -       | false    |
 | name          | Form name                                        | string                  | -       | true     |
 | value         | The input content value                          | string                  | -       | false    |
 | defaultValue  | The initial input date                           | Dayjs                   | dayjs() | false    |

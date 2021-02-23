@@ -14,6 +14,7 @@ let customParseFormat = require("dayjs/plugin/customParseFormat");
 dayjs.extend(customParseFormat);
 
 const DateTimePicker: FC<DateTimePickerType> = ({
+  ref,
   name,
   value,
   defaultValue,
@@ -265,6 +266,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
     >
       <div className="wye-datetimepicker-picker-container" {...triggerProps}>
         <DateInput
+          ref={ref}
           name={name}
           value={inputValue ? inputValue : ""}
           rtl={rtl}

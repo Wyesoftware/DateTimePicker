@@ -2,6 +2,12 @@ import { Dayjs } from "dayjs";
 import { CSSProperties } from "react";
 
 interface DateInputType {
+  ref:
+    | string
+    | ((instance: HTMLInputElement | null) => void)
+    | React.RefObject<HTMLInputElement>
+    | null
+    | undefined;
   name: string;
   value: string | undefined;
   rtl?: boolean;

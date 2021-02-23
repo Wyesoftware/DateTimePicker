@@ -3,8 +3,10 @@ import DateInputType from "../Types/DateInput";
 import calendarIcon from "../styles/Icons/Calendar.svg";
 import clearIcon from "../styles/Icons/Clear.svg";
 import dayjs from "dayjs";
+import { mergeRefs } from "react-laag";
 
 export const DateInput: FC<DateInputType> = ({
+  ref,
   name,
   value,
   rtl = false,
@@ -106,7 +108,7 @@ export const DateInput: FC<DateInputType> = ({
     >
       <input
         type="text"
-        ref={inputRef}
+        ref={ref ? mergeRefs(inputRef, ref) : inputRef}
         name={name}
         onChange={(e) => inputChange(e.currentTarget.value)}
         onBlur={(e) => {

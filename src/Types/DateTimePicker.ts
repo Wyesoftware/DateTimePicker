@@ -1,8 +1,14 @@
-import { CSSProperties } from "react";
+import { CSSProperties, Ref } from "react";
 import { Dayjs } from "dayjs";
 import { Locale } from "dayjs/locale/*";
 
 interface DateTimePickerType {
+  ref?:
+    | string
+    | ((instance: HTMLInputElement | null) => void)
+    | React.RefObject<HTMLInputElement>
+    | null
+    | undefined;
   name: string;
   value?: string;
   defaultValue?: Dayjs;
