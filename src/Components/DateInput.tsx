@@ -15,6 +15,7 @@ export const DateInput: FC<DateInputType> = ({
   onBlur,
   disabledDate,
   setIsOpenOptions,
+  onClear,
   placeholder,
   allowClear,
   disabled,
@@ -57,16 +58,17 @@ export const DateInput: FC<DateInputType> = ({
     let values = value.split("/").map(function (v, i) {
       return v.replace(/\D/g, "");
     });
-    let output = "";
 
     if (
       values.length == 3 &&
       values[2].length > 0 &&
       !disabledDate(dayjs(value, "DD / MM / YYYY"))
     ) {
-      output = value;
+      setInputValue(value);
+    } else {
+      setInputValue("");
+      onClear();
     }
-    setInputValue(output);
   };
 
   const mergeClasses = () => {
@@ -91,6 +93,7 @@ export const DateInput: FC<DateInputType> = ({
 
   const clear = () => {
     setInputValue("");
+    onClear();
   };
 
   useEffect(() => {
@@ -107,6 +110,7 @@ export const DateInput: FC<DateInputType> = ({
       style={style}
     >
       <input
+        autoComplete="off"
         type="text"
         ref={ref ? mergeRefs(inputRef, ref) : inputRef}
         name={name}

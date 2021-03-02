@@ -16,6 +16,7 @@ interface DateInputType {
   onBlur?: () => void;
   disabledDate: (day: Dayjs) => boolean;
   setIsOpenOptions: (value: boolean) => void;
+  onClear: () => void;
   placeholder: string;
   allowClear?: boolean;
   disabled?: boolean;

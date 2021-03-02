@@ -1,4 +1,4 @@
-import { CSSProperties, Ref } from "react";
+import { CSSProperties } from "react";
 import { Dayjs } from "dayjs";
 import { Locale } from "dayjs/locale/*";
 
@@ -10,13 +10,13 @@ interface DateTimePickerType {
     | null
     | undefined;
   name: string;
-  value?: string;
+  value?: string | Dayjs;
   defaultValue?: Dayjs;
   disabled?: boolean;
   readonly?: boolean;
   allowClear?: boolean;
   onBlur?: () => void;
-  onChange?: (value: Dayjs) => void;
+  onChange?: (value: Dayjs | undefined) => void;
   disabledDates?: (day: Dayjs) => boolean;
   style?: CSSProperties;
   rtl?: boolean;

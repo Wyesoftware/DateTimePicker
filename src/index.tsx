@@ -47,7 +47,9 @@ const DateTimePicker: FC<DateTimePickerType> = ({
   const [hoverPlaceholder, setHoverPlaceholder] = useState<string | undefined>(
     undefined
   );
-  const [inputValue, setInputValue] = useState<string | undefined>(value);
+  const [inputValue, setInputValue] = useState<string | undefined>(
+    dayjs(value).format("DD / MM / YYYY")
+  );
 
   const { triggerProps, layerProps, renderLayer } = useLayer({
     isOpen: isOptionsOpen,
@@ -279,6 +281,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
           onBlur={onBlur}
           disabledDate={(day) => (disabledDates ? disabledDates(day) : false)}
           setIsOpenOptions={(value: boolean) => setIsOptionsOpen(value)}
+          onClear={() => onChange && onChange(undefined)}
           placeholder={hoverPlaceholder ? hoverPlaceholder : "DD / MM / YYYY"}
           allowClear={allowClear}
           disabled={disabled}
