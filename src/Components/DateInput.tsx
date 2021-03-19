@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { mergeRefs } from "react-laag";
 
 export const DateInput: FC<DateInputType> = ({
+  mode,
   ref,
   name,
   value,
@@ -37,37 +38,130 @@ export const DateInput: FC<DateInputType> = ({
     return value;
   };
 
-  const inputChange = (value: string) => {
-    if (/\D\/$/.test(value)) value = value.substr(0, value.length - 3);
-    let values = value.split("/").map(function (v) {
-      return v.replace(/\D/g, "");
-    });
-    if (values[0]) values[0] = checkValue(values[0], 31);
-    if (values[1]) values[1] = checkValue(values[1], 12);
-    let output = values.map(function (v, i) {
-      return v.length == 2 && i < 2 ? v + " / " : v;
-    });
-    setInputValue(output.join("").substr(0, 14));
+  const autoFormat = (value: string) => {
+    if (mode === "date") {
+      if (/\D\/$/.test(value)) value = value.substr(0, value.length - 3);
+      let values = value.split("/").map(function (v) {
+        return v.replace(/\D/g, "");
+      });
+      if (values[0]) values[0] = checkValue(values[0], 31);
+      if (values[1]) values[1] = checkValue(values[1], 12);
+      let output = values.map(function (v, i) {
+        return v.length == 2 && i < 2 ? v + " / " : v;
+      });
+      setInputValue(output.join("").substr(0, 14));
 
-    if (value.length === 14) {
-      onChange(value);
+      if (
+        value.length === 14 &&
+        !disabledDate(dayjs(value, "DD / MM / YYYY")) &&
+        dayjs(value, "DD / MM / YYYY").isValid()
+      ) {
+        onChange(value);
+      }
+    } else if (mode === "datetime") {
+      if (value.length < 21) {
+        setInputValue(value);
+      }
+      if (
+        value.length === 20 &&
+        !disabledDate(dayjs(value, "DD / MM / YYYY HH:mm")) &&
+        dayjs(value, "DD / MM / YYYY HH:mm").isValid()
+      ) {
+        onChange(value);
+      }
+
+      if (value.length === 1) {
+        let day = checkValue(value[0], 31);
+        if (day.length === 2) {
+          setInputValue(day + " / ");
+        } else {
+          setInputValue(day);
+        }
+      }
+
+      if (value.length === 6) {
+        let day = checkValue(value[5], 12);
+        if (day.length === 2) {
+          setInputValue(value.slice(0, 5) + day + " / ");
+        } else {
+          setInputValue(value.slice(0, 5) + day);
+        }
+      }
+
+      if (value.length === 2) {
+        setInputValue(value + " / ");
+      } else if (value.length === 7) {
+        setInputValue(value + " / ");
+      } else if (value.length === 14) {
+        setInputValue(value + " ");
+      } else if (value.length === 17) {
+        setInputValue(value + ":");
+      }
+    } else if (mode === "time") {
+      if (value.length < 6) {
+        setInputValue(value);
+      }
+      if (value.length === 5 && dayjs(value, "HH:mm").isValid()) {
+        onChange(value);
+      }
+      if (value.length === 2) {
+        setInputValue(value + ":");
+      }
     }
   };
 
-  const inputBlur = (value: string) => {
-    let values = value.split("/").map(function (v, i) {
-      return v.replace(/\D/g, "");
-    });
+  const autoRemove = (value: string) => {
+    if (mode === "datetime") {
+      if (value.length === 5) {
+        setInputValue(value.slice(0, 2));
+      } else if (value.length === 10) {
+        setInputValue(value.slice(0, 7));
+      } else if (value.length === 15) {
+        setInputValue(value.slice(0, 14));
+      } else if (value.length === 18) {
+        setInputValue(value.slice(0, 17));
+      }
+    } else if (mode === "time") {
+      if (value.length === 3) {
+        setInputValue(value.slice(0, 2));
+      }
+    }
+  };
 
-    if (
-      values.length == 3 &&
-      values[2].length > 0 &&
-      !disabledDate(dayjs(value, "DD / MM / YYYY"))
-    ) {
-      setInputValue(value);
-    } else {
-      setInputValue("");
-      onClear();
+  const blur = (value: string) => {
+    if (mode === "date") {
+      let values = value.split("/").map(function (v, i) {
+        return v.replace(/\D/g, "");
+      });
+
+      if (
+        values.length == 3 &&
+        values[2].length > 0 &&
+        !disabledDate(dayjs(value, "DD / MM / YYYY"))
+      ) {
+        setInputValue(value);
+      } else {
+        setInputValue("");
+        onClear();
+      }
+    } else if (mode === "datetime") {
+      if (
+        value.length === 20 &&
+        !disabledDate(dayjs(value, "DD / MM / YYYY HH:mm")) &&
+        dayjs(value, "DD / MM / YYYY HH:mm").isValid()
+      ) {
+        setInputValue(value);
+      } else {
+        setInputValue("");
+        onClear();
+      }
+    } else if (mode === "time") {
+      if (value.length === 5 && dayjs(value, "HH:mm").isValid()) {
+        setInputValue(value);
+      } else {
+        setInputValue("");
+        onClear();
+      }
     }
   };
 
@@ -114,16 +208,24 @@ export const DateInput: FC<DateInputType> = ({
         type="text"
         ref={ref ? mergeRefs(inputRef, ref) : inputRef}
         name={name}
-        onChange={(e) => inputChange(e.currentTarget.value)}
+        onChange={(e) => autoFormat(e.currentTarget.value)}
         onBlur={(e) => {
-          inputBlur(e.currentTarget.value);
+          blur(e.currentTarget.value);
           if (onBlur) {
             onBlur();
           }
         }}
         onKeyUp={(e) => {
-          if (e.key === "Enter" && e.currentTarget.value.length === 14) {
+          if (e.key === "Enter") {
             setIsOpenOptions(false);
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key === " ") {
+            e.preventDefault();
+          }
+          if (e.key === "Backspace") {
+            autoRemove(e.currentTarget.value);
           }
         }}
         value={inputValue}

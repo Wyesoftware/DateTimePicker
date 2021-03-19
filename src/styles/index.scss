@@ -129,6 +129,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-weight: bold;
   cursor: pointer;
   img {
     margin-left: 0.2rem;
@@ -193,6 +194,7 @@
 }
 
 .wye-datetimepicker-day.wye-datetimepicker-isToday {
+  color: #1e88e5;
   font-weight: bolder;
 }
 
@@ -280,4 +282,89 @@ button.wye-datetimepicker-primary:hover {
   input.wye-datetimepicker-input-month {
     width: 5rem;
   }
+}
+
+.wye-datetimepicker-infinitetime-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  .wye-datetimepicker-picker-container {
+    position: relative;
+    display: flex;
+    background-color: rgb(245, 245, 245);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    font-size: large;
+    width: 5rem;
+    height: 2.5rem;
+    overflow: hidden;
+    align-items: center;
+    justify-content: space-between;
+    scroll-behavior: smooth;
+  }
+
+  .wye-datetimepicker-picker-container:hover {
+    border: 1px solid #3390e2;
+    transition: 1s;
+  }
+
+  .wye-datetimepicker-picker-container:focus-within {
+    border: 1px solid #3390e2;
+  }
+
+  .wye-datetimepicker-other {
+    padding: 0 0.5rem;
+    cursor: pointer;
+  }
+
+  .wye-datetimepicker-target {
+    padding: 0 0.5rem;
+    font-weight: 500;
+    cursor: text;
+  }
+
+  .wye-datetimepicker-after {
+    font-weight: 500;
+  }
+
+  input.wye-datetimepicker-input-minute {
+    background-color: rgb(245, 245, 245);
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 1.3rem;
+    font-size: large;
+    outline: none;
+  }
+
+  input.wye-datetimepicker-input-hour {
+    background-color: rgb(245, 245, 245);
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 1.3rem;
+    font-size: large;
+    outline: none;
+  }
+
+  button.wye-datetimepicker-ghost {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #1e88e5;
+  }
+  button.wye-datetimepicker-ghost:hover {
+    cursor: pointer;
+    color: #3390e2;
+  }
+}
+
+.wye-datetimepicker-infinitetime-container-rtl {
+  flex-direction: row;
+}
+
+.wye-datetimepicker-hr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 1rem 0;
 }

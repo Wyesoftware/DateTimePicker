@@ -7,6 +7,7 @@ import arrowOpen from "./styles/Icons/ArrowOpen.svg";
 import dayjs, { Dayjs } from "dayjs";
 import { useLayer } from "react-laag";
 import { InfiniteMonthYearsSelect } from "./Components/InfiniteMonthYearsSelect";
+import { InfiniteTimeInput } from "./Components/InfiniteTimeInput";
 import { DateInput } from "./Components/DateInput";
 import DateTimePickerType, { WeekDay } from "./Types/DateTimePicker";
 
@@ -14,6 +15,7 @@ let customParseFormat = require("dayjs/plugin/customParseFormat");
 dayjs.extend(customParseFormat);
 
 const DateTimePicker: FC<DateTimePickerType> = ({
+  mode = "date",
   ref,
   name,
   value,
@@ -30,6 +32,16 @@ const DateTimePicker: FC<DateTimePickerType> = ({
   width = "100%",
 }) => {
   dayjs.locale(lang);
+
+  const getValueFormat = () => {
+    if (mode === "date") {
+      return "DD / MM / YYYY";
+    } else if (mode === "datetime") {
+      return "DD / MM / YYYY HH:mm";
+    } else {
+      return "HH:mm";
+    }
+  };
 
   const [selectedMonth, setSelectedMonth] = useState<{
     month: number;
@@ -48,7 +60,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
     undefined
   );
   const [inputValue, setInputValue] = useState<string | undefined>(
-    dayjs(value).format("DD / MM / YYYY")
+    value ? dayjs(value).format(getValueFormat()) : undefined
   );
 
   const { triggerProps, layerProps, renderLayer } = useLayer({
@@ -248,15 +260,26 @@ const DateTimePicker: FC<DateTimePickerType> = ({
     });
   };
 
-  const manualChange = (value: string) => {
+  const setNewMinuteHour = async (value: Dayjs) => {
+    let newDay = selectedDay
+      .set("hours", value.get("hours"))
+      .set("minutes", value.get("minutes"));
+    await setSelectedDay(newDay);
+    setInputValue(newDay.format(getValueFormat()));
+    if (onChange) {
+      onChange(newDay);
+    }
+  };
+
+  const manualChange = async (value: string) => {
     setSelectedMonth({
-      month: dayjs(value, "DD / MM / YYYY").month(),
-      year: dayjs(value, "DD / MM / YYYY").year(),
+      month: dayjs(value, getValueFormat()).month(),
+      year: dayjs(value, getValueFormat()).year(),
     });
-    setSelectedDay(dayjs(value, "DD / MM / YYYY"));
+    await setSelectedDay(dayjs(value, getValueFormat()));
     setInputValue(value);
     if (onChange) {
-      onChange(dayjs(value, "DD / MM / YYYY"));
+      onChange(dayjs(value, getValueFormat()));
     }
   };
 
@@ -268,6 +291,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
     >
       <div className="wye-datetimepicker-picker-container" {...triggerProps}>
         <DateInput
+          mode={mode}
           ref={ref}
           name={name}
           value={inputValue ? inputValue : ""}
@@ -282,7 +306,7 @@ const DateTimePicker: FC<DateTimePickerType> = ({
           disabledDate={(day) => (disabledDates ? disabledDates(day) : false)}
           setIsOpenOptions={(value: boolean) => setIsOptionsOpen(value)}
           onClear={() => onChange && onChange(undefined)}
-          placeholder={hoverPlaceholder ? hoverPlaceholder : "DD / MM / YYYY"}
+          placeholder={hoverPlaceholder ? hoverPlaceholder : getValueFormat()}
           allowClear={allowClear}
           disabled={disabled}
           readonly={readonly}
@@ -298,142 +322,207 @@ const DateTimePicker: FC<DateTimePickerType> = ({
               }
               {...layerProps}
             >
-              <div className="wye-datetimepicker-calendar-actions">
-                <div
-                  className={
-                    rtl
-                      ? "wye-datetimepicker-currentmonth wye-datetimepicker-currentmonth-rtl"
-                      : "wye-datetimepicker-currentmonth"
-                  }
-                  onClick={() => setIsActionsOpen(!isActionsOpen)}
-                >
-                  {dayjs().month(selectedMonth.month).format("MMMM") +
-                    " " +
-                    dayjs().year(selectedMonth.year).format("YYYY")}
-                  {isActionsOpen ? (
-                    <img src={arrowClose} alt="arrowClose" />
-                  ) : (
-                    <img
-                      src={arrowOpen}
-                      className={rtl ? undefined : "wye-datetimepicker-rotate"}
-                      alt="arrowOpen"
-                    />
-                  )}
-                </div>
-                <div
-                  className={
-                    rtl
-                      ? "wye-datetimepicker-actions wye-datetimepicker-actions-rtl"
-                      : "wye-datetimepicker-actions"
-                  }
-                >
-                  {rtl ? (
-                    <>
-                      <img src={arrowBack} alt="arrowBack" onClick={goBack} />
-                      <img
-                        src={arrowForward}
-                        alt="arrowForward"
-                        onClick={goForward}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <img
-                        src={arrowForward}
-                        alt="arrowForward"
-                        onClick={goForward}
-                      />
-                      <img src={arrowBack} alt="arrowBack" onClick={goBack} />
-                    </>
-                  )}
-                </div>
-              </div>
-              {isActionsOpen ? (
-                <div className="wye-datetimepicker-date-actions">
-                  <InfiniteMonthYearsSelect
-                    defaultValue={selectedDay}
-                    onChange={(value) => setNewMonthYear(value)}
-                    onClose={(value) => setIsActionsOpen(value)}
-                    rtl={rtl}
-                  />
-                </div>
-              ) : (
+              {(mode === "time" || mode === "datetime") && !isActionsOpen && (
+                <InfiniteTimeInput
+                  defaultValue={selectedDay}
+                  onChange={(value) => setNewMinuteHour(value)}
+                  rtl={rtl}
+                />
+              )}
+              {mode === "datetime" && !isActionsOpen && (
+                <div className="wye-datetimepicker-hr"></div>
+              )}
+              {(mode === "date" || mode === "datetime") && (
                 <>
-                  <table>
-                    <thead>
-                      <tr>
-                        {weekDays.map((weekDay: string, key: number) => (
-                          <th key={key}>{weekDay}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {weeksAndDays?.map((week: WeekDay[], i: number) => (
-                        <tr key={i}>
-                          {week.map((day: WeekDay, a: number) => (
-                            <td
-                              className={
-                                day.isDisabled
-                                  ? "wye-datetimepicker-disabledDay"
-                                  : undefined
-                              }
-                              style={{
-                                opacity: day.isCurrentMonth ? 1 : 0.5,
-                              }}
-                              key={a}
-                            >
-                              <div
-                                className={mergeDayClass(day.date)}
-                                onMouseEnter={() =>
-                                  !day.isDisabled &&
-                                  setHoverPlaceholder(
-                                    dayjs(day.date).format("DD / MM / YYYY")
-                                  )
-                                }
-                                onMouseOut={() =>
-                                  setHoverPlaceholder(undefined)
-                                }
-                                onClick={() => {
-                                  if (!day.isDisabled) {
-                                    setInputValue(
-                                      dayjs(day.date).format("DD / MM / YYYY")
-                                    );
-                                    if (onChange) {
-                                      onChange(dayjs(day.date, "YYYY-MM-DD"));
-                                    }
-                                    setSelectedDay(dayjs(day.date));
-                                    if (!day.isCurrentMonth) {
-                                      setSelectedMonth({
-                                        month: dayjs(day.date).month(),
-                                        year: dayjs(day.date).year(),
-                                      });
-                                    }
-                                    setIsOptionsOpen(false);
+                  <div className="wye-datetimepicker-calendar-actions">
+                    <div
+                      className={
+                        rtl
+                          ? "wye-datetimepicker-currentmonth wye-datetimepicker-currentmonth-rtl"
+                          : "wye-datetimepicker-currentmonth"
+                      }
+                      onClick={() => setIsActionsOpen(!isActionsOpen)}
+                    >
+                      {dayjs().month(selectedMonth.month).format("MMMM") +
+                        " " +
+                        dayjs().year(selectedMonth.year).format("YYYY")}
+                      {isActionsOpen ? (
+                        <img src={arrowClose} alt="arrowClose" />
+                      ) : (
+                        <img
+                          src={arrowOpen}
+                          className={
+                            rtl ? undefined : "wye-datetimepicker-rotate"
+                          }
+                          alt="arrowOpen"
+                        />
+                      )}
+                    </div>
+                    <div
+                      className={
+                        rtl
+                          ? "wye-datetimepicker-actions wye-datetimepicker-actions-rtl"
+                          : "wye-datetimepicker-actions"
+                      }
+                    >
+                      {rtl ? (
+                        <>
+                          <img
+                            src={arrowBack}
+                            alt="arrowBack"
+                            onClick={goBack}
+                          />
+                          <img
+                            src={arrowForward}
+                            alt="arrowForward"
+                            onClick={goForward}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            src={arrowForward}
+                            alt="arrowForward"
+                            onClick={goForward}
+                          />
+                          <img
+                            src={arrowBack}
+                            alt="arrowBack"
+                            onClick={goBack}
+                          />
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  {isActionsOpen ? (
+                    <div className="wye-datetimepicker-date-actions">
+                      <InfiniteMonthYearsSelect
+                        defaultValue={selectedDay}
+                        onChange={(value) => setNewMonthYear(value)}
+                        onClose={(value) => setIsActionsOpen(value)}
+                        rtl={rtl}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <table>
+                        <thead>
+                          <tr>
+                            {weekDays.map((weekDay: string, key: number) => (
+                              <th key={key}>{weekDay}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {weeksAndDays?.map((week: WeekDay[], i: number) => (
+                            <tr key={i}>
+                              {week.map((day: WeekDay, a: number) => (
+                                <td
+                                  className={
+                                    day.isDisabled
+                                      ? "wye-datetimepicker-disabledDay"
+                                      : undefined
                                   }
-                                }}
-                              >
-                                {dayjs(day.date).format("D")}
-                              </div>
-                            </td>
+                                  style={{
+                                    opacity: day.isCurrentMonth ? 1 : 0.5,
+                                  }}
+                                  key={a}
+                                >
+                                  <div
+                                    className={mergeDayClass(day.date)}
+                                    onMouseEnter={() =>
+                                      !day.isDisabled &&
+                                      setHoverPlaceholder(
+                                        dayjs(day.date)
+                                          .set("hour", selectedDay.get("hour"))
+                                          .set(
+                                            "minute",
+                                            selectedDay.get("minute")
+                                          )
+                                          .format(getValueFormat())
+                                      )
+                                    }
+                                    onMouseOut={() =>
+                                      setHoverPlaceholder(undefined)
+                                    }
+                                    onClick={() => {
+                                      if (!day.isDisabled) {
+                                        setInputValue(
+                                          dayjs(day.date)
+                                            .set(
+                                              "hour",
+                                              selectedDay.get("hour")
+                                            )
+                                            .set(
+                                              "minute",
+                                              selectedDay.get("minute")
+                                            )
+                                            .format(getValueFormat())
+                                        );
+                                        if (onChange) {
+                                          onChange(
+                                            dayjs(day.date, "YYYY-MM-DD")
+                                              .set(
+                                                "hour",
+                                                selectedDay.get("hour")
+                                              )
+                                              .set(
+                                                "minute",
+                                                selectedDay.get("minute")
+                                              )
+                                          );
+                                        }
+                                        setSelectedDay(
+                                          selectedDay.set(
+                                            "date",
+                                            dayjs(day.date, "YYYY-MM-DD").get(
+                                              "date"
+                                            )
+                                          )
+                                        );
+                                        if (!day.isCurrentMonth) {
+                                          setSelectedMonth({
+                                            month: dayjs(day.date).month(),
+                                            year: dayjs(day.date).year(),
+                                          });
+                                        }
+                                        setIsOptionsOpen(false);
+                                      }
+                                    }}
+                                  >
+                                    {dayjs(day.date).format("D")}
+                                  </div>
+                                </td>
+                              ))}
+                            </tr>
                           ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  <button
-                    className="wye-datetimepicker-primary"
-                    type="button"
-                    style={{ width: "100%", marginTop: "1rem" }}
-                    onClick={() => {
-                      setSelectedMonth({
-                        month: dayjs().month(),
-                        year: dayjs().year(),
-                      });
-                      setSelectedDay(dayjs());
-                    }}
-                  >
-                    {rtl ? "להיום" : "Today"}
-                  </button>
+                        </tbody>
+                      </table>
+                      <button
+                        className="wye-datetimepicker-primary"
+                        type="button"
+                        style={{ width: "100%", marginTop: "1rem" }}
+                        onClick={() => {
+                          setSelectedMonth({
+                            month: dayjs().month(),
+                            year: dayjs().year(),
+                          });
+                          if (
+                            (disabledDates && !disabledDates(dayjs())) ||
+                            !disabledDates
+                          ) {
+                            setSelectedDay(dayjs());
+                            setInputValue(dayjs().format(getValueFormat()));
+                            if (onChange) {
+                              onChange(dayjs());
+                            }
+                          }
+                        }}
+                      >
+                        {rtl ? "להיום" : "Today"}
+                      </button>
+                    </>
+                  )}
                 </>
               )}
             </div>

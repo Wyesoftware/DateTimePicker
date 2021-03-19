@@ -3,6 +3,7 @@ import { Dayjs } from "dayjs";
 import { Locale } from "dayjs/locale/*";
 
 interface DateTimePickerType {
+  mode?: "date" | "time" | "datetime";
   ref?:
     | string
     | ((instance: HTMLInputElement | null) => void)

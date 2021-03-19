@@ -33,9 +33,10 @@ This component has full typescript support.
 
 | Property      | Description                                      | Type                               | Default | Required |
 | ------------- | ------------------------------------------------ | ---------------------------------- | ------- | -------- |
+| mode          | DateTimeInput mode                               | "date" / "time" / "datetime"       | "date"  | false    |
 | ref           | Input ref                                        | RefObject                          | -       | false    |
 | name          | Form name                                        | string                             | -       | true     |
-| value         | The input content value                          | string / Dayjs                     | -       | false    |
+| value         | The input content value                          | string / Dayjs / undefined         | -       | false    |
 | defaultValue  | The initial input date                           | Dayjs                              | dayjs() | false    |
 | disabled      | Whether the input is disabled                    | boolean                            | false   | false    |
 | readonly      | Whether the input is readOnly                    | boolean                            | false   | false    |
@@ -44,10 +45,10 @@ This component has full typescript support.
 | onChange      | Callback when user input                         | (value: Dayjs / undefined) => void | -       | false    |
 | disabledDates | Specify the date that cannot be selected         | (day: Dayjs) => boolean            | -       | false    |
 | style         | The style of input                               | CSSProperties                      | -       | false    |
-| rtl           | Right-to-left direction of component             | bolean                             | false   | false    |
+| rtl           | Right-to-left direction of component             | boolean                            | false   | false    |
 | lang          | Date package locale                              | Dayjs.Locale                       | -       | true     |
 | width         | Width of main container                          | string                             | "100%"  | false    |
 
 ## Future updates
 
-First release contains "Date" mode only. "DateTime", "Time", "Range" modes will be available soon.
+Mode "Range" will be available soon.

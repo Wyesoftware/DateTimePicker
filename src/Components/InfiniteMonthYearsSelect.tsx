@@ -44,9 +44,9 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
 
   useEffect(() => {
     if (options.length > 0) {
-      let newData: OptionType[] = [];
+      let monthes: OptionType[] = [];
 
-      newData.push(
+      monthes.push(
         options[
           options.findIndex(
             (element: OptionType) =>
@@ -80,7 +80,7 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
           )
         ]
       );
-      setMonthData(newData);
+      setMonthData(monthes);
     }
 
     let years: OptionType[] = [];
@@ -120,9 +120,17 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
 
   const handleWheelYear = (e: any) => {
     if (e.nativeEvent.wheelDelta > 0) {
-      setTarget(target.add(1, "year"));
+      if (target.get("year") === dayjs().get("year") + 50) {
+        setTarget(target.set("year", dayjs().get("year") - 150));
+      } else {
+        setTarget(target.add(1, "year"));
+      }
     } else {
-      setTarget(target.subtract(1, "year"));
+      if (target.get("year") === dayjs().get("year") - 150) {
+        setTarget(target.set("year", dayjs().get("year") + 50));
+      } else {
+        setTarget(target.subtract(1, "year"));
+      }
     }
   };
 
@@ -153,8 +161,15 @@ export const InfiniteMonthYearsSelect: FC<InfiniteMonthYearsSelectType> = ({
 
   const setYearManual = (value: string) => {
     if (!isNaN(parseInt(value))) {
-      setTarget(target.set("year", parseInt(value)));
-      setIsEditYear(false);
+      if (
+        Number(value) > dayjs().get("year") - 150 &&
+        Number(value) < dayjs().get("year") + 50
+      ) {
+        setTarget(target.set("year", parseInt(value)));
+        setIsEditYear(false);
+      } else {
+        setIsEditYear(false);
+      }
     }
   };
 
