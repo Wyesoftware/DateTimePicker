@@ -74,9 +74,6 @@ const DateTimePicker: FC<DateTimePickerType> = ({
 
   useEffect(() => {
     setInputValue(value ? dayjs(value).format(getValueFormat()) : undefined);
-    if (onChange) {
-      onChange(value ? dayjs(value) : undefined);
-    }
   }, [value]);
 
   const weekDays = rtl

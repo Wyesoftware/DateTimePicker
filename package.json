@@ -1,7 +1,7 @@
 {
   "author": "Wyesoftware",
   "name": "@wyesoftware/datetimepicker",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "DateTimePicker Component for React Typescript",
   "homepage": "https://github.com/Wyesoftware/DateTimePicker",
   "main": "dist/index.js",
