@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import "./styles/index.scss";
-import arrowBack from "./styles/Icons/ArrowBack.svg";
-import arrowClose from "./styles/Icons/ArrowClose.svg";
-import arrowForward from "./styles/Icons/ArrowForward.svg";
-import arrowOpen from "./styles/Icons/ArrowOpen.svg";
+import arrowBack from "./styles/Icons/arrowBack.svg";
+import arrowClose from "./styles/Icons/arrowClose.svg";
+import arrowForward from "./styles/Icons/arrowForward.svg";
+import arrowOpen from "./styles/Icons/arrowOpen.svg";
 import dayjs, { Dayjs } from "dayjs";
 import { useLayer } from "react-laag";
 import { InfiniteMonthYearsSelect } from "./Components/InfiniteMonthYearsSelect";
@@ -56,9 +56,8 @@ const DateTimePicker: FC<DateTimePickerType> = ({
   const [selectedDay, setSelectedDay] = useState<dayjs.Dayjs>(
     defaultValue ? dayjs(defaultValue) : dayjs()
   );
-  const [hoverPlaceholder, setHoverPlaceholder] = useState<string | undefined>(
-    undefined
-  );
+  const [hoverPlaceholder, setHoverPlaceholder] =
+    useState<string | undefined>(undefined);
   const [inputValue, setInputValue] = useState<string | undefined>(
     value ? dayjs(value).format(getValueFormat()) : undefined
   );

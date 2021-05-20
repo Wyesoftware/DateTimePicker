@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import DateInputType from "../Types/DateInput";
-import calendarIcon from "../styles/Icons/Calendar.svg";
-import clearIcon from "../styles/Icons/Clear.svg";
+import calendarIcon from "../styles/Icons/calendar.svg";
+import clearIcon from "../styles/Icons/clear.svg";
 import dayjs from "dayjs";
 import { mergeRefs } from "react-laag";
 
