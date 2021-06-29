@@ -1,6 +1,6 @@
-import sass from "rollup-plugin-sass";
+import scss from "rollup-plugin-scss";
+import WindiCSS from "rollup-plugin-windicss";
 import typescript from "rollup-plugin-typescript2";
-import svg from "rollup-plugin-svg";
 
 import pkg from "./package.json";
 
@@ -9,12 +9,9 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: "cjs",
-      exports: "named",
-      sourcemap: true,
-      strict: false,
+      format: "esm",
     },
   ],
-  plugins: [sass({ insert: true }), svg({ base64: true }), typescript()],
-  external: ["react", "react-dom", "dayjs", "react-laag"],
+  plugins: [scss({ output: "./dist/bundle.css" }), ...WindiCSS(), typescript()],
+  external: ["react", "react-dom", "classnames", "dayjs", "react-laag"],
 };
