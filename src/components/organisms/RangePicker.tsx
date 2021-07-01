@@ -15,6 +15,10 @@ export const RangePicker = ({
   onChange,
   onBlur,
   language,
+  disabled = false,
+  readOnly = false,
+  allowClear = false,
+  onClear,
 }: IRangePicker) => {
   dayjs.locale(language.dayjs.locale);
 
@@ -100,6 +104,10 @@ export const RangePicker = ({
             }
             onChange && onChange(undefined);
           }}
+          disabled={disabled}
+          readOnly={readOnly}
+          allowClear={allowClear}
+          onClear={onClear}
         />
       </div>
       {isCalendarOpen &&
