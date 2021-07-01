@@ -1,53 +1,9 @@
-import { Ref } from "react";
+import { FocusEvent, Ref } from "react";
 import { LayerProps } from "react-laag";
 import { Dayjs } from "dayjs";
 import { Locale } from "dayjs/locale/*";
 
 export interface Props {
-  /**
-   * Datetimepicker mode
-   * @default "datetime"
-   */
-  mode?: "date" | "time" | "datetime" | "range";
-  /**
-   * Input placeholder
-   */
-  placeholder?: string;
-  /**
-   * Input form name
-   */
-  name?: string;
-  /**
-   * Value for "date" | "time" | "datetime" modes
-   * @summary not available in "range" mod
-   */
-  value?: string | Dayjs;
-  /**
-   * Value for "range" mode
-   * @summary not available in other mods
-   */
-  rangeValue?: string[] | Dayjs[];
-  /**
-   * onChange for "date" | "time" | "datetime" modes
-   * @summary not available in "range" mod
-   */
-  onChange?: (value: Dayjs | undefined) => void;
-  /**
-   * onChange for "range" mode
-   * @summary not available in other mods
-   */
-  onChangeRange?: (value: Dayjs[] | undefined) => void;
-  /**
-   * Calendar already shows current month or need to choose year and month
-   * @default true
-   */
-  isCurrentMonth?: boolean;
-  /**
-   * Disable some dates from choosing
-   * @example disableDates={ (day) => day === dayjs() }
-   * @summary available only in mode "date" or "datetime"
-   */
-  disabledDates?: (day: Dayjs) => boolean;
   /**
    * Set direction attribute
    * @param "ltr" | "rtl"
@@ -61,11 +17,74 @@ export interface Props {
    */
   dirFromElement?: "html" | "body" | string;
   /**
+   * Ref for input
+   */
+  inputRef?: Ref<HTMLInputElement>;
+  /**
+   * Input form name
+   */
+  name?: string;
+  /**
+   * Input value
+   * @summary string | Dayjs - for "date" | "datetime" | "time" mode
+   * @summary string[] | Dayjs[] - for "range" mode
+   */
+  value?: string | Dayjs | string[] | Dayjs[];
+  /**
+   * Input placeholder
+   */
+  placeholder?: string;
+  /**
+   * Input onChange callback
+   * @summary Dayjs | undefined - for "date" | "datetime" | "time" mode
+   * @summary Dayjs[] | undefined - for "range" mode
+   */
+  onChange?: (value: Dayjs | Dayjs[] | undefined) => void;
+  /**
+   * Input onBlur callback
+   */
+  onBlur?: (e?: FocusEvent<HTMLInputElement>) => void;
+  /**
+   * Datetimepicker mode
+   * @default "datetime"
+   */
+  mode?: "date" | "time" | "datetime" | "range";
+  /**
+   * Calendar already shows current month or need to choose year and month
+   * @default true
+   */
+  isCurrentMonth?: boolean;
+  /**
+   * Disable some dates from choosing
+   * @example disableDates={ (day) => day === dayjs() }
+   * @summary available only in mode "date" or "datetime"
+   */
+  disabledDates?: (day: Dayjs) => boolean;
+  /**
    * Choose language or set custom language
    * @param "en" | "he" | "ru" | customLang
    * @default "en"
    */
   language?: ILanguage | "en" | "he" | "ru";
+  /**
+   * Disabled mod for input
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * ReadOnly mod for input
+   * @default false
+   */
+  readOnly?: boolean;
+  /**
+   * Show clear button to reset input
+   * @default false
+   */
+  allowClear?: boolean;
+  /**
+   * onClear callback for clear button
+   */
+  onClear?: () => void;
   /**
    * Classes for main container
    */
@@ -150,40 +169,54 @@ export interface IInput {
   name?: string;
   placeholder?: string;
   value: string;
-  disabled?: boolean;
-  readOnly?: boolean;
-  allowClear?: boolean;
+  disabled: boolean;
+  readOnly: boolean;
+  allowClear: boolean;
   onChange: (value: Dayjs | null) => void;
+  onClear?: () => void;
 }
 
 export interface IRangeInput {
-  inputFromRef: Ref<HTMLInputElement>;
+  inputRef: Ref<HTMLInputElement>;
   name?: string;
   placeholder?: string;
   value: string[];
-  disabled?: boolean;
-  readOnly?: boolean;
-  allowClear?: boolean;
+  disabled: boolean;
+  readOnly: boolean;
+  allowClear: boolean;
   onChange: (value: (Dayjs | null)[] | null) => void;
   onBlur: (value: number) => void;
+  onClear?: () => void;
 }
 
 export interface IDateTimePicker {
+  inputRef?: Ref<HTMLInputElement>;
   mode: "date" | "datetime" | "time";
   placeholder: string | undefined;
   name: string | undefined;
   value: string | Dayjs | undefined;
   onChange: ((value: Dayjs | undefined) => void) | undefined;
+  onBlur?: (e?: FocusEvent<HTMLInputElement>) => void;
   isCurrentMonth: boolean;
   disabledDates?: (day: Dayjs) => boolean;
+  disabled: boolean;
+  readOnly: boolean;
+  allowClear: boolean;
+  onClear?: () => void;
   language: ILanguage;
 }
 
 export interface IRangePicker {
+  inputRef?: Ref<HTMLInputElement>;
   placeholder: string | undefined;
   name: string | undefined;
   value: string[] | Dayjs[] | undefined;
   onChange: ((value: Dayjs[] | undefined) => void) | undefined;
+  onBlur?: (e?: FocusEvent<HTMLInputElement>) => void;
+  disabled: boolean;
+  readOnly: boolean;
+  allowClear: boolean;
+  onClear?: () => void;
   language: ILanguage;
 }
 

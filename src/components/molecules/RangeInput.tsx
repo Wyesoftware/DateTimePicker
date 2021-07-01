@@ -6,15 +6,16 @@ import { formatDate } from "../atoms/functions/autoFormat";
 import { calendar, clear, rangeArrow } from "../atoms/icons";
 
 export const RangeInput = ({
-  inputFromRef,
+  inputRef,
   name,
   placeholder,
   value,
-  disabled = false,
-  readOnly = false,
-  allowClear = false,
+  disabled,
+  readOnly,
+  allowClear,
   onChange,
   onBlur,
+  onClear,
 }: IRangeInput) => {
   const inputToRef = React.useRef<HTMLInputElement>(null);
   const [inputFromValue, setInputFromValue] = useState<string>(value[0]);
@@ -98,7 +99,7 @@ export const RangeInput = ({
         <input
           data-cy="rangepicker-from"
           className="w-30 bg-transparent outline-none border-0"
-          ref={inputFromRef}
+          ref={inputRef}
           autoComplete="off"
           name={name}
           type="text"
@@ -139,6 +140,7 @@ export const RangeInput = ({
             onChange(null);
             setInputFromValue("");
             setInputToValue("");
+            onClear && onClear();
           }}
         />
       )}

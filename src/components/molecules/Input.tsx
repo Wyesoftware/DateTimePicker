@@ -18,10 +18,11 @@ export const Input = ({
   name,
   placeholder,
   value,
-  disabled = false,
-  readOnly = false,
-  allowClear = false,
+  disabled,
+  readOnly,
+  allowClear,
   onChange,
+  onClear,
 }: IInput) => {
   const [inputValue, setInputValue] = useState<string>(value);
 
@@ -120,6 +121,7 @@ export const Input = ({
           onClick={() => {
             onChange(null);
             setInputValue("");
+            onClear && onClear();
           }}
         />
       )}

@@ -22,12 +22,11 @@ export const Select = ({
   }, [value]);
 
   const { triggerProps, layerProps, renderLayer, triggerBounds } = useLayer({
-    container: "wyesoftware-datetimepicker",
     isOpen: isSelectOpen,
     onOutsideClick: () => setIsSelectOpen(false),
     onParentClose: () => setIsSelectOpen(false),
     placement: "bottom-start",
-    overflowContainer: false,
+    auto: true,
     possiblePlacements: ["top-start"],
   });
 
@@ -86,8 +85,8 @@ export const Select = ({
           style={{ width: "1.5rem" }}
         />
       </div>
-      {renderLayer(
-        isSelectOpen && (
+      {isSelectOpen &&
+        renderLayer(
           <Options
             layerProps={layerProps}
             triggerBounds={triggerBounds}
@@ -96,8 +95,7 @@ export const Select = ({
             setSelectValue={setSelectValue}
             setIsSelectOpen={setIsSelectOpen}
           />
-        )
-      )}
+        )}
     </div>
   );
 };

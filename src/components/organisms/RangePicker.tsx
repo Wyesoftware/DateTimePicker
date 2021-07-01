@@ -1,27 +1,29 @@
 import dayjs, { Dayjs } from "dayjs";
 import React, { useEffect, useState } from "react";
-import { useLayer } from "react-laag";
+import { mergeRefs, useLayer } from "react-laag";
 import { IRangePicker, TargetMonth } from "../../types";
 import { dateFormat } from "../atoms/constants";
 import { RangeInput } from "../molecules/RangeInput";
 import { RangeCalendar } from "../molecules/RangeCalendar";
+import { useDirection } from "../atoms/hooks/useDirection";
 
 export const RangePicker = ({
+  inputRef,
   placeholder,
   name,
   value,
   onChange,
+  onBlur,
   language,
 }: IRangePicker) => {
   dayjs.locale(language.dayjs.locale);
 
-  const inputRef = React.useRef<HTMLInputElement>(null);
-
+  const { getDirection } = useDirection();
+  const extraRef = React.useRef<HTMLInputElement>(null);
   const [targetDate, setTargetDate] = useState<TargetMonth>({
     year: dayjs().year(),
     month: dayjs().month(),
   });
-
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [targetValue, setTargetValue] = useState<(Dayjs | null)[]>([
     null,
@@ -35,9 +37,11 @@ export const RangePicker = ({
   }, [value]);
 
   const { triggerProps, layerProps, renderLayer } = useLayer({
-    container: "wyesoftware-datetimepicker",
     isOpen: isCalendarOpen,
-    onOutsideClick: () => setIsCalendarOpen(false),
+    onOutsideClick: () => {
+      setIsCalendarOpen(false);
+      onBlur && onBlur();
+    },
     placement: "bottom-start",
     auto: true,
     overflowContainer: false,
@@ -58,7 +62,7 @@ export const RangePicker = ({
     <>
       <div {...triggerProps} onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
         <RangeInput
-          inputFromRef={inputRef}
+          inputRef={inputRef ? mergeRefs(inputRef, extraRef) : extraRef}
           name={name}
           placeholder={placeholder}
           value={getValue()}
@@ -101,7 +105,8 @@ export const RangePicker = ({
       {isCalendarOpen &&
         renderLayer(
           <div
-            className="flex flex-row justify-center items-center p-8"
+            dir={getDirection()}
+            className="flex flex-row justify-center items-center p-8 z-60"
             {...layerProps}
             style={{
               boxShadow: "0px 4px 14px rgba(96, 79, 112, 0.05)",

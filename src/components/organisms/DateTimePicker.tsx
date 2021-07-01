@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLayer } from "react-laag";
+import { mergeRefs, useLayer } from "react-laag";
 import dayjs from "dayjs";
 import { IDateTimePicker, IDateValue } from "../../types";
 import { createYears } from "../atoms/functions/createYears";
@@ -12,20 +12,28 @@ import {
   monthes,
   timeFormat,
 } from "../atoms/constants";
+import { useDirection } from "../atoms/hooks/useDirection";
 
 export const DateTimePicker = ({
+  inputRef,
   mode,
   placeholder,
   name,
   value,
   onChange,
+  onBlur,
   isCurrentMonth,
   disabledDates,
+  disabled,
+  readOnly,
+  allowClear,
+  onClear,
   language,
 }: IDateTimePicker) => {
   dayjs.locale(language.dayjs.locale);
 
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const { getDirection } = useDirection();
+  const extraRef = React.useRef<HTMLInputElement>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [targetValue, setTargetValue] = useState<IDateValue>({
     year: isCurrentMonth ? dayjs().year() : null,
@@ -48,9 +56,10 @@ export const DateTimePicker = ({
   }, [value]);
 
   const { triggerProps, triggerBounds, layerProps, renderLayer } = useLayer({
-    container: "wyesoftware-datetimepicker",
     isOpen: isCalendarOpen,
-    onOutsideClick: () => setIsCalendarOpen(false),
+    onOutsideClick: () => {
+      setIsCalendarOpen(false), onBlur && onBlur();
+    },
     placement: "bottom-start",
     auto: true,
     overflowContainer: false,
@@ -99,12 +108,12 @@ export const DateTimePicker = ({
       <div
         {...triggerProps}
         onClick={() => {
-          inputRef.current?.focus();
+          extraRef.current?.focus();
           setIsCalendarOpen(!isCalendarOpen);
         }}
       >
         <Input
-          inputRef={inputRef}
+          inputRef={inputRef ? mergeRefs(inputRef, extraRef) : extraRef}
           mode={mode}
           name={name}
           placeholder={placeholder}
@@ -134,12 +143,17 @@ export const DateTimePicker = ({
               onChange && onChange(undefined);
             }
           }}
+          disabled={disabled}
+          readOnly={readOnly}
+          allowClear={allowClear}
+          onClear={onClear}
         />
       </div>
       {isCalendarOpen &&
         renderLayer(
           <div
-            className="flex flex-row justify-center items-center p-8"
+            dir={getDirection()}
+            className="flex flex-row justify-center items-center p-8 z-60"
             {...layerProps}
             style={{
               boxShadow: "0px 4px 14px rgba(96, 79, 112, 0.05)",

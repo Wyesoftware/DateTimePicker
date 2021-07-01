@@ -28,21 +28,25 @@ This component has full typescript support.
 
 ## Available props
 
-| Property       | Description                                                          | Type                                   | Default    | Required |
-| -------------- | -------------------------------------------------------------------- | -------------------------------------- | ---------- | -------- |
-| mode           | DateTimeInput mode                                                   | "date" / "datetime" / "time" / "range" | "datetime" | false    |
-| placeholder    | Custom input placeholder                                             | string                                 | -          | false    |
-| name           | Form name                                                            | string                                 | -          | false    |
-| value          | The input content value                                              | string / Dayjs / undefined             | -          | false    |
-| rangeValue     | The input content value (for range mode)                             | string[] / Dayjs[] / undefined         | -          | false    |
-| onChange       | Callback when user input                                             | (value: Dayjs / undefined) => void     | -          | false    |
-| onChangeRange  | Callback when user input (for range mode)                            | (value: Dayjs[] / undefined) => void   | -          | false    |
-| isCurrentMonth | Calendar set current month and year on load                          | boolean                                | true       | false    |
-| disabledDates  | Specify the date that cannot be selected                             | (day: Dayjs) => boolean                | -          | false    |
-| dir            | Direction of the component                                           | "ltr" / "rtl"                          | "ltr"      | false    |
-| dirFromElement | Set component direction from outside element                         | "html" / "body" / string (for id)      | -          | false    |
-| language       | Choose language (english, hebrew, russian - available) or set custom | "en" / "he" / "ru" / custom            | "en"       | false    |
-| className      | Set classes for main container                                       | string                                 | -          | false    |
+| Property       | Description                                                          | Type                                            | Default    | Required |
+| -------------- | -------------------------------------------------------------------- | ----------------------------------------------- | ---------- | -------- |
+| dir            | Direction of the component                                           | "ltr" / "rtl"                                   | "ltr"      | false    |
+| dirFromElement | Set component direction from outside element                         | "html" / "body" / string (for id)               | -          | false    |
+| inputRef       | Ref for input                                                        | Ref<HTMLInputElement>                           | -          | false    |
+| name           | Form name                                                            | string                                          | -          | false    |
+| value          | The input content value                                              | string / Dayjs / string[] / Dayjs[] / undefined | -          | false    |
+| placeholder    | Custom input placeholder                                             | string                                          | -          | false    |
+| onChange       | Callback when user input                                             | (value: Dayjs / Dayjs[] / undefined) => void    | -          | false    |
+| onBlur         | Callback when user click outside                                     | (e?: FocusEvent<HTMLInputElement>) => void      | -          | false    |
+| mode           | DateTimeInput mode                                                   | "date" / "datetime" / "time" / "range"          | "datetime" | false    |
+| isCurrentMonth | Calendar set current month and year on load                          | boolean                                         | true       | false    |
+| disabledDates  | Specify the date that cannot be selected                             | (day: Dayjs) => boolean                         | -          | false    |
+| language       | Choose language (english, hebrew, russian - available) or set custom | "en" / "he" / "ru" / custom                     | "en"       | false    |
+| disabled       | Set input disabled mode                                              | boolean                                         | false      | false    |
+| readOnly       | Set input readOnly mode                                              | boolean                                         | false      | false    |
+| allowClear     | Show clear input button                                              | boolean                                         | false      | false    |
+| onClear        | Callback when user clear input                                       | () => void                                      | -          | false    |
+| className      | Set classes for main container                                       | string                                          | -          | false    |
 
 ### Custom language object example
 
@@ -66,4 +70,4 @@ placeholders: {
 
 ## Future updates
 
-As soon as possible we will add more props
+More features....

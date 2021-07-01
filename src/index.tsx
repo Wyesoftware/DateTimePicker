@@ -4,7 +4,7 @@ import "virtual:windi.css";
 import { DateTimePicker } from "./components/organisms/DateTimePicker";
 import { RangePicker } from "./components/organisms/RangePicker";
 import { ILanguage, Props } from "./types";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { en, he, ru } from "./components/atoms/constants/language";
 import { useDirection } from "./components/atoms/hooks/useDirection";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -13,18 +13,22 @@ dayjs.extend(customParseFormat);
 dayjs.extend(isBetween);
 
 const DateTimeComponent = ({
-  mode = "datetime",
-  placeholder,
-  name,
-  value,
-  rangeValue,
-  onChange,
-  onChangeRange,
-  isCurrentMonth = true,
-  disabledDates,
   dir = "ltr",
   dirFromElement,
+  inputRef,
+  name,
+  value,
+  placeholder,
+  onChange,
+  onBlur,
+  mode = "datetime",
+  isCurrentMonth = true,
+  disabledDates,
   language = "en",
+  disabled = false,
+  readOnly = false,
+  allowClear = false,
+  onClear,
   className,
 }: Props) => {
   const { setDirection } = useDirection();
@@ -49,23 +53,35 @@ const DateTimeComponent = ({
       case "time":
         return (
           <DateTimePicker
+            inputRef={inputRef}
             mode={mode}
             placeholder={placeholder}
             name={name}
-            value={value}
+            value={value as string | Dayjs | undefined}
             onChange={onChange}
+            onBlur={onBlur}
             isCurrentMonth={isCurrentMonth}
             disabledDates={disabledDates}
+            disabled={disabled}
+            readOnly={readOnly}
+            allowClear={allowClear}
+            onClear={onClear}
             language={getLang()}
           />
         );
       case "range":
         return (
           <RangePicker
+            inputRef={inputRef}
             name={name}
             placeholder={placeholder}
-            value={rangeValue}
-            onChange={onChangeRange}
+            value={value as string[] | Dayjs[] | undefined}
+            onChange={onChange}
+            onBlur={onBlur}
+            disabled={disabled}
+            readOnly={readOnly}
+            allowClear={allowClear}
+            onClear={onClear}
             language={getLang()}
           />
         );

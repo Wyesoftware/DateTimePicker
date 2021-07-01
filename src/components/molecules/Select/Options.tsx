@@ -17,7 +17,7 @@ export const Options = ({
   return (
     <div id="select-container">
       <div
-        className="bg-white flex flex-col justify-start items-start overflow-y-auto max-h-80"
+        className="max-h-60 bg-white flex flex-col justify-start items-start overflow-y-auto z-61"
         {...layerProps}
         style={{
           boxShadow: "0px 4px 14px rgba(96, 79, 112, 0.05)",
