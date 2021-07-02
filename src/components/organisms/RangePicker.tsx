@@ -64,7 +64,14 @@ export const RangePicker = ({
 
   return (
     <>
-      <div {...triggerProps} onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
+      <div
+        {...triggerProps}
+        onClick={() => {
+          if (!disabled && !readOnly) {
+            setIsCalendarOpen(!isCalendarOpen);
+          }
+        }}
+      >
         <RangeInput
           inputRef={inputRef ? mergeRefs(inputRef, extraRef) : extraRef}
           name={name}

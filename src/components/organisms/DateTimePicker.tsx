@@ -108,8 +108,10 @@ export const DateTimePicker = ({
       <div
         {...triggerProps}
         onClick={() => {
-          extraRef.current?.focus();
-          setIsCalendarOpen(!isCalendarOpen);
+          if (!disabled && !readOnly) {
+            extraRef.current?.focus();
+            setIsCalendarOpen(!isCalendarOpen);
+          }
         }}
       >
         <Input

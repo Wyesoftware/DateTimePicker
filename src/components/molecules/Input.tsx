@@ -116,9 +116,11 @@ export const Input = ({
       />
       {allowClear && (
         <img
+          className="mx-1 !cursor-pointer"
           src={clear}
           alt="clear-button"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             onChange(null);
             setInputValue("");
             onClear && onClear();
