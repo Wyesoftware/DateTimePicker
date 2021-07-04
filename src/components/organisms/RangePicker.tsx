@@ -121,7 +121,7 @@ export const RangePicker = ({
         renderLayer(
           <div
             dir={getDirection()}
-            className="flex flex-row justify-center items-center p-8 z-60"
+            className="bg-white flex flex-row justify-center items-center p-8 z-60"
             {...layerProps}
             style={{
               boxShadow: "0px 4px 14px rgba(96, 79, 112, 0.05)",

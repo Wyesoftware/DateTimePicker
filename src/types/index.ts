@@ -173,6 +173,7 @@ export interface IInput {
   readOnly: boolean;
   allowClear: boolean;
   onChange: (value: Dayjs | null) => void;
+  disabledDates?: (day: Dayjs) => boolean;
   onClear?: () => void;
 }
 

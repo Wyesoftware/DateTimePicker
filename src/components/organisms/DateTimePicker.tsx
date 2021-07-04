@@ -55,7 +55,7 @@ export const DateTimePicker = ({
     }
   }, [value]);
 
-  const { triggerProps, triggerBounds, layerProps, renderLayer } = useLayer({
+  const { triggerProps, layerProps, renderLayer } = useLayer({
     isOpen: isCalendarOpen,
     onOutsideClick: () => {
       setIsCalendarOpen(false), onBlur && onBlur();
@@ -145,6 +145,7 @@ export const DateTimePicker = ({
               onChange && onChange(undefined);
             }
           }}
+          disabledDates={disabledDates}
           disabled={disabled}
           readOnly={readOnly}
           allowClear={allowClear}
@@ -155,11 +156,10 @@ export const DateTimePicker = ({
         renderLayer(
           <div
             dir={getDirection()}
-            className="flex flex-row justify-center items-center p-8 z-60"
+            className="bg-white flex flex-row justify-center items-center p-8 z-60"
             {...layerProps}
             style={{
               boxShadow: "0px 4px 14px rgba(96, 79, 112, 0.05)",
-              maxWidth: triggerBounds!.width,
               ...layerProps.style,
             }}
           >

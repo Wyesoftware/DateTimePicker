@@ -22,6 +22,7 @@ export const Input = ({
   readOnly,
   allowClear,
   onChange,
+  disabledDates,
   onClear,
 }: IInput) => {
   const [inputValue, setInputValue] = useState<string>(value);
@@ -67,12 +68,18 @@ export const Input = ({
 
   const blurFormat = (value: string) => {
     if (mode === "date") {
-      if (!dateValidator.test(value)) {
+      if (
+        !dateValidator.test(value) ||
+        (disabledDates && disabledDates(dayjs(value, dateFormat)))
+      ) {
         onChange(null);
         setInputValue("");
       }
     } else if (mode === "datetime") {
-      if (!dateTimeValidator.test(value)) {
+      if (
+        !dateTimeValidator.test(value) ||
+        (disabledDates && disabledDates(dayjs(value, dateTimeFormat)))
+      ) {
         onChange(null);
         setInputValue("");
       }
