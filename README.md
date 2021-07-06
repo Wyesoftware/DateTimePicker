@@ -1,3 +1,5 @@
+[![✅ testing](https://github.com/Wyesoftware/DateTimePicker/actions/workflows/main.yml/badge.svg)](https://github.com/Wyesoftware/DateTimePicker/actions/workflows/main.yml)
+
 # DateTimePicker
 
 DateTimePicker Component for React.JS/React.TS
