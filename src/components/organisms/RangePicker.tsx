@@ -65,6 +65,7 @@ export const RangePicker = ({
   return (
     <>
       <div
+        role="rangepicker"
         {...triggerProps}
         onClick={() => {
           if (!disabled && !readOnly) {

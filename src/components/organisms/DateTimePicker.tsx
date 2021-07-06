@@ -106,6 +106,7 @@ export const DateTimePicker = ({
   return (
     <>
       <div
+        role="datetimepicker"
         {...triggerProps}
         onClick={() => {
           if (!disabled && !readOnly) {
@@ -155,6 +156,7 @@ export const DateTimePicker = ({
       {isCalendarOpen &&
         renderLayer(
           <div
+            role="picker"
             dir={getDirection()}
             className="bg-white flex flex-row justify-center items-center p-8 z-60"
             {...layerProps}
@@ -223,16 +225,30 @@ export const DateTimePicker = ({
                     minute: targetValue.minute,
                   });
                   setIsCalendarOpen(false);
+                  const date = dayjs()
+                    .set("year", value.year)
+                    .set("month", value.month)
+                    .set("date", value.day);
+                  targetValue.hour && date.set("hour", targetValue.hour);
+                  targetValue.minute && date.set("minute", targetValue.minute);
+                  onChange && onChange(date);
                 }}
-                onChangeTime={(value) =>
+                onChangeTime={(value) => {
                   setTargetValue({
                     year: targetValue.year,
                     month: targetValue.month,
                     day: targetValue.day,
                     hour: value.hour,
                     minute: value.minute,
-                  })
-                }
+                  });
+                  const date = dayjs();
+                  targetValue.year && date.set("year", targetValue.year);
+                  targetValue.month && date.set("month", targetValue.month);
+                  targetValue.day && date.set("date", targetValue.day);
+                  value.hour && date.set("hour", value.hour);
+                  value.minute && date.set("minute", value.minute);
+                  onChange && onChange(date);
+                }}
                 disabledDates={disabledDates}
                 language={language}
               />

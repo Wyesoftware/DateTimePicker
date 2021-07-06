@@ -67,26 +67,28 @@ export const Input = ({
   };
 
   const blurFormat = (value: string) => {
-    if (mode === "date") {
-      if (
-        !dateValidator.test(value) ||
-        (disabledDates && disabledDates(dayjs(value, dateFormat)))
-      ) {
-        onChange(null);
-        setInputValue("");
-      }
-    } else if (mode === "datetime") {
-      if (
-        !dateTimeValidator.test(value) ||
-        (disabledDates && disabledDates(dayjs(value, dateTimeFormat)))
-      ) {
-        onChange(null);
-        setInputValue("");
-      }
-    } else {
-      if (!timeValidator.test(value)) {
-        onChange(null);
-        setInputValue("");
+    if (value) {
+      if (mode === "date") {
+        if (
+          !dateValidator.test(value) ||
+          (disabledDates && disabledDates(dayjs(value, dateFormat)))
+        ) {
+          onChange(null);
+          setInputValue("");
+        }
+      } else if (mode === "datetime") {
+        if (
+          !dateTimeValidator.test(value) ||
+          (disabledDates && disabledDates(dayjs(value, dateTimeFormat)))
+        ) {
+          onChange(null);
+          setInputValue("");
+        }
+      } else {
+        if (!timeValidator.test(value)) {
+          onChange(null);
+          setInputValue("");
+        }
       }
     }
   };
@@ -97,6 +99,7 @@ export const Input = ({
       className="flex flex-row justify-between items-center border-1 border-[#e5e7eb] rounded-sm p-1 cursor-text focus-within:border-[#90caf9]"
     >
       <input
+        role="datetimepicker-input"
         data-cy="datetimepicker"
         className="w-full bg-transparent outline-none border-0"
         ref={inputRef}
@@ -123,6 +126,7 @@ export const Input = ({
       />
       {allowClear && (
         <img
+          role="clearInput"
           className="mx-1 !cursor-pointer"
           src={clear}
           alt="clear-button"

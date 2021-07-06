@@ -70,7 +70,7 @@ export const Calendar = ({
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div role="calendar" className="flex flex-col justify-center items-center">
       {(mode === "datetime" || mode === "time") && (
         <>
           <div
@@ -172,6 +172,7 @@ export const Calendar = ({
                   {week.map((day: WeekDay, a: number) => (
                     <td key={a}>
                       <div
+                        role={"calendar-day-" + dayjs(day.date).format("D")}
                         className={cx(
                           "relative flex justify-center items-center p-4 my-0.5 cursor-pointer rounded-sm select-none hover:bg-[#1c87e54d]",
                           {
@@ -219,6 +220,7 @@ export const Calendar = ({
           </table>
           <div className="w-full flex flex-row justify-between items-center mt-4">
             <button
+              role="today-button"
               className="bg-[#1c87e5] py-2 px-4 flex justify-center items-center border-0 outline-none mx-2 text-white w-full cursor-pointer hover:bg-[#1c87e5e6]"
               onClick={() =>
                 setTargetMonth({

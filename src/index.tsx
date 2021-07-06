@@ -91,6 +91,7 @@ const DateTimeComponent = ({
   return (
     <div
       id="wyesoftware-datetimepicker"
+      role="container"
       className={className}
       dir={setDirection(dirFromElement) ? setDirection(dirFromElement) : dir}
     >

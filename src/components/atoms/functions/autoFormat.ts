@@ -11,12 +11,30 @@ export const formatDate = (value: string, addSpace: boolean) => {
   });
   if (values[0]) values[0] = checkDateValue(values[0], null, 31);
   if (values[1]) values[1] = checkDateValue(values[1], null, 12);
-  if (values[2] && values[2].length === 4)
-    values[2] = checkDateValue(
-      values[2],
-      dayjs().subtract(120, "years").year(),
-      dayjs().add(20, "years").year()
-    );
+  if (values[2]) {
+    let minYear = String(dayjs().subtract(120, "years").year());
+    let maxYear = String(dayjs().add(20, "years").year());
+    if (values[2].length === 1)
+      values[2] = checkDateValue(
+        values[2],
+        Number(minYear.slice(0, 1)),
+        Number(maxYear.slice(0, 1))
+      );
+    if (values[2].length === 2)
+      values[2] = checkDateValue(
+        values[2],
+        Number(minYear.slice(0, 2)),
+        Number(maxYear.slice(0, 2))
+      );
+    if (values[2].length === 3)
+      values[2] = checkDateValue(
+        values[2],
+        Number(minYear.slice(0, 3)),
+        Number(maxYear.slice(0, 3))
+      );
+    if (values[2].length === 4)
+      values[2] = checkDateValue(values[2], Number(minYear), Number(maxYear));
+  }
   let output = values.map((v, i) => {
     return v.length === 2 && i < 2 ? v + " / " : v;
   });
