@@ -6,7 +6,8 @@
   "homepage": "https://github.com/Wyesoftware/DateTimePicker",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "jest --watch --silent --verbose --env=jsdom",
+    "test": "jest --silent --verbose --env=jsdom",
+    "test:watch": "jest --watchAll --silent --verbose --env=jsdom",
     "build": "rollup -c",
     "start": "rollup -c -w"
   },
