@@ -75,21 +75,10 @@ export const DateTimePicker = ({
           .set("year", targetValue.year)
           .set("month", targetValue.month)
           .set("date", targetValue.day)
-          .set(
-            "hour",
-            targetValue.hour
-              ? targetValue.hour
-              : mode === "datetime" || mode === "time"
-              ? dayjs().hour()
-              : 9
-          )
+          .set("hour", targetValue.hour ? targetValue.hour : dayjs().hour())
           .set(
             "minute",
-            targetValue.minute
-              ? targetValue.minute
-              : mode === "datetime" || mode === "time"
-              ? dayjs().minute()
-              : 0
+            targetValue.minute ? targetValue.minute : dayjs().minute()
           )
           .format(
             mode === "date"
@@ -225,13 +214,15 @@ export const DateTimePicker = ({
                     minute: targetValue.minute,
                   });
                   setIsCalendarOpen(false);
-                  const date = dayjs()
-                    .set("year", value.year)
-                    .set("month", value.month)
-                    .set("date", value.day);
-                  targetValue.hour && date.set("hour", targetValue.hour);
-                  targetValue.minute && date.set("minute", targetValue.minute);
-                  onChange && onChange(date);
+                  onChange &&
+                    onChange(
+                      dayjs()
+                        .set("year", value.year)
+                        .set("month", value.month)
+                        .set("date", value.day)
+                        .set("hour", targetValue.hour || dayjs().hour())
+                        .set("minute", targetValue.minute || dayjs().minute())
+                    );
                 }}
                 onChangeTime={(value) => {
                   setTargetValue({
@@ -241,13 +232,6 @@ export const DateTimePicker = ({
                     hour: value.hour,
                     minute: value.minute,
                   });
-                  const date = dayjs();
-                  targetValue.year && date.set("year", targetValue.year);
-                  targetValue.month && date.set("month", targetValue.month);
-                  targetValue.day && date.set("date", targetValue.day);
-                  value.hour && date.set("hour", value.hour);
-                  value.minute && date.set("minute", value.minute);
-                  onChange && onChange(date);
                 }}
                 disabledDates={disabledDates}
                 language={language}

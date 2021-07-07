@@ -159,18 +159,35 @@ describe("DateTimePicker", () => {
     });
 
     it("test onChange by click", () => {
+      window.HTMLElement.prototype.scrollIntoView = jest.fn();
       console.log = jest.fn();
       render(
         <DateTimeComponent
-          onChange={(value: Dayjs) => console.log(value.unix())}
+          onChange={(value: Dayjs) =>
+            console.log(value.format("DD/MM/YYYY HH:mm"))
+          }
         />
       );
       user.click(screen.getByRole("datetimepicker"));
+      user.click(screen.getAllByRole("select")[0]);
+      user.click(screen.getByRole("option-12"));
+      user.click(screen.getAllByRole("select")[1]);
+      user.click(screen.getByRole("option-30"));
       user.click(screen.getByRole("calendar-day-12"));
       expect(screen.getByRole("datetimepicker-input")).toHaveValue(
-        dayjs().set("date", 12).format("DD / MM / YYYY  HH : mm")
+        dayjs()
+          .set("date", 12)
+          .set("hour", 12)
+          .set("minute", 30)
+          .format("DD / MM / YYYY  HH : mm")
       );
-      expect(console.log).toHaveBeenCalledWith(dayjs().set("date", 12).unix());
+      expect(console.log).toHaveBeenCalledWith(
+        dayjs()
+          .set("date", 12)
+          .set("hour", 12)
+          .set("minute", 30)
+          .format("DD/MM/YYYY HH:mm")
+      );
     });
 
     it("test disabledDates by click", () => {
@@ -191,10 +208,3 @@ describe("DateTimePicker", () => {
     });
   });
 });
-
-// describe("RangePicker", () => {
-//   it("render rangepicker", () => {
-//     render(<DateTimeComponent mode="range" />);
-//     expect(screen.getByRole("rangepicker")).toBeInTheDocument();
-//   });
-// });

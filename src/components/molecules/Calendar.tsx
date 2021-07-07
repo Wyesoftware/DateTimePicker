@@ -116,6 +116,7 @@ export const Calendar = ({
           {mode === "time" && (
             <div className="w-full flex flex-row justify-between items-center">
               <button
+                role="time-button"
                 className="bg-[#1c87e5] py-2 px-4 flex justify-center items-center border-0 outline-none text-white w-full cursor-pointer hover:bg-[#1c87e5e6]"
                 onClick={() =>
                   onChange({

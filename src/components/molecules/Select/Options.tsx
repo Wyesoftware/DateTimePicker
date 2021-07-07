@@ -11,7 +11,7 @@ export const Options = ({
 }: IOptionComponent) => {
   useEffect(() => {
     let item = document.getElementById("focus");
-    item?.scrollIntoView();
+    item && item.scrollIntoView();
   }, []);
 
   return (
@@ -30,6 +30,7 @@ export const Options = ({
             key={i}
             id={option.focus ? "focus" : undefined}
             className="w-full py-2 cursor-pointer hover:bg-[#eee]"
+            role={"option-" + option.value}
             data-value={option.value}
             onClick={() => {
               onChange(option.value);

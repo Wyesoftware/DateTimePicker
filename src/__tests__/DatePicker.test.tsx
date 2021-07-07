@@ -180,7 +180,7 @@ describe("DatePicker", () => {
       render(
         <DateTimeComponent
           mode="date"
-          onChange={(value: Dayjs) => console.log(value.unix())}
+          onChange={(value: Dayjs) => console.log(value.format("DD/MM/YYYY"))}
         />
       );
       user.click(screen.getByRole("datetimepicker"));
@@ -188,7 +188,9 @@ describe("DatePicker", () => {
       expect(screen.getByRole("datetimepicker-input")).toHaveValue(
         dayjs().set("date", 12).format("DD / MM / YYYY")
       );
-      expect(console.log).toHaveBeenCalledWith(dayjs().set("date", 12).unix());
+      expect(console.log).toHaveBeenCalledWith(
+        dayjs().set("date", 12).format("DD/MM/YYYY")
+      );
     });
 
     it("test disabledDates by click", () => {

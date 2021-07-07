@@ -121,6 +121,7 @@ export const RangePicker = ({
       {isCalendarOpen &&
         renderLayer(
           <div
+            role="picker"
             dir={getDirection()}
             className="bg-white flex flex-row justify-center items-center p-8 z-60"
             {...layerProps}
@@ -133,9 +134,8 @@ export const RangePicker = ({
               targetDate={targetDate}
               targetValue={targetValue}
               setTargetDate={setTargetDate}
-              onChange={(value) => {
-                setTargetValue(value);
-              }}
+              setTargetValue={(value) => setTargetValue(value)}
+              onChange={(value) => onChange && onChange(value)}
               language={language}
             />
           </div>

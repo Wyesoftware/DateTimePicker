@@ -102,11 +102,11 @@ describe("TimePicker", () => {
       expect(screen.getByRole("container")).toHaveAttribute("dir", "rtl");
     });
 
-    // it("test language", () => {
-    //   render(<DateTimeComponent mode="time" language="ru" />);
-    //   user.click(screen.getByRole("datetimepicker"));
-    //   expect(screen.getByRole("today-button")).toHaveTextContent("Сегодня");
-    // });
+    it("test language", () => {
+      render(<DateTimeComponent mode="time" language="ru" />);
+      user.click(screen.getByRole("datetimepicker"));
+      expect(screen.getByRole("time-button")).toHaveTextContent("Задать время");
+    });
 
     it("test readOnly", () => {
       render(<DateTimeComponent mode="time" readOnly />);
@@ -140,20 +140,25 @@ describe("TimePicker", () => {
       expect(console.log).toHaveBeenCalledWith(dayjs("12:30", "HH:mm", true));
     });
 
-    // it("test onChange by click", () => {
-    //   console.log = jest.fn();
-    //   render(
-    //     <DateTimeComponent
-    //       mode="time"
-    //       onChange={(value: Dayjs) => console.log(value.unix())}
-    //     />
-    //   );
-    //   user.click(screen.getByRole("datetimepicker"));
-    //   user.click(screen.getByRole("calendar-day-12"));
-    //   expect(screen.getByRole("datetimepicker-input")).toHaveValue(
-    //     dayjs().set("date", 12).format("DD / MM / YYYY  HH : mm")
-    //   );
-    //   expect(console.log).toHaveBeenCalledWith(dayjs().set("date", 12).unix());
-    // });
+    it("test onChange by click", () => {
+      window.HTMLElement.prototype.scrollIntoView = jest.fn();
+      console.log = jest.fn();
+      render(
+        <DateTimeComponent
+          mode="time"
+          onChange={(value: Dayjs) => console.log(value.format("HH:mm"))}
+        />
+      );
+      user.click(screen.getByRole("datetimepicker"));
+      user.click(screen.getAllByRole("select")[0]);
+      user.click(screen.getByRole("option-12"));
+      user.click(screen.getAllByRole("select")[1]);
+      user.click(screen.getByRole("option-30"));
+      user.click(screen.getByRole("time-button"));
+      expect(screen.getByRole("datetimepicker-input")).toHaveValue("12 : 30");
+      expect(console.log).toHaveBeenCalledWith(
+        dayjs().set("hour", 12).set("minute", 30).format("HH:mm")
+      );
+    });
   });
 });

@@ -32,8 +32,10 @@ export interface Props {
   value?: string | Dayjs | string[] | Dayjs[];
   /**
    * Input placeholder
+   * @summary string - for "date" | "datetime" | "time" mode
+   * @summary string[] - for "range" mode
    */
-  placeholder?: string;
+  placeholder?: string | string[];
   /**
    * Input onChange callback
    * @summary Dayjs | undefined - for "date" | "datetime" | "time" mode
@@ -153,7 +155,8 @@ export interface IRangeCalendar {
   targetDate: TargetMonth;
   targetValue: (Dayjs | null)[];
   setTargetDate: (value: TargetMonth) => void;
-  onChange: (value: (Dayjs | null)[]) => void;
+  setTargetValue: (value: (Dayjs | null)[]) => void;
+  onChange: (value: Dayjs[] | undefined) => void;
   language: ILanguage;
 }
 
@@ -180,7 +183,7 @@ export interface IInput {
 export interface IRangeInput {
   inputRef: Ref<HTMLInputElement>;
   name?: string;
-  placeholder?: string;
+  placeholder?: string[];
   value: string[];
   disabled: boolean;
   readOnly: boolean;
@@ -209,7 +212,7 @@ export interface IDateTimePicker {
 
 export interface IRangePicker {
   inputRef?: Ref<HTMLInputElement>;
-  placeholder: string | undefined;
+  placeholder: string[] | undefined;
   name: string | undefined;
   value: string[] | Dayjs[] | undefined;
   onChange: ((value: Dayjs[] | undefined) => void) | undefined;

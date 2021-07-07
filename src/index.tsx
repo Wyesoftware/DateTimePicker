@@ -55,7 +55,7 @@ const DateTimeComponent = ({
           <DateTimePicker
             inputRef={inputRef}
             mode={mode}
-            placeholder={placeholder}
+            placeholder={placeholder as string}
             name={name}
             value={value as string | Dayjs | undefined}
             onChange={onChange}
@@ -74,7 +74,7 @@ const DateTimeComponent = ({
           <RangePicker
             inputRef={inputRef}
             name={name}
-            placeholder={placeholder}
+            placeholder={placeholder as string[]}
             value={value as string[] | Dayjs[] | undefined}
             onChange={onChange}
             onBlur={onBlur}

@@ -12,6 +12,7 @@ export const RangeCalendar = ({
   targetDate,
   targetValue,
   setTargetDate,
+  setTargetValue,
   onChange,
   language,
 }: IRangeCalendar) => {
@@ -119,6 +120,9 @@ export const RangeCalendar = ({
                   {week.map((day: WeekDay, a: number) => (
                     <td key={a}>
                       <div
+                        role={
+                          "calendar-from-day-" + dayjs(day.date).format("D")
+                        }
                         className={cx(
                           "relative flex justify-center items-center p-4 my-0.5 cursor-pointer rounded-sm select-none",
                           {
@@ -150,12 +154,18 @@ export const RangeCalendar = ({
                           if (day.isCurrentMonth) {
                             if (targetValue[0]) {
                               if (targetValue[1]) {
-                                onChange([dayjs(day.date), null]);
+                                setTargetValue([dayjs(day.date), null]);
                               } else {
+                                setTargetValue([
+                                  targetValue[0],
+                                  dayjs(day.date),
+                                ]);
                                 onChange([targetValue[0], dayjs(day.date)]);
                               }
                             } else {
-                              onChange([dayjs(day.date), targetValue[1]]);
+                              setTargetValue([dayjs(day.date), targetValue[1]]);
+                              targetValue[1] &&
+                                onChange([dayjs(day.date), targetValue[1]]);
                             }
                           }
                         }}
@@ -187,6 +197,7 @@ export const RangeCalendar = ({
                   {week.map((day: WeekDay, a: number) => (
                     <td key={a}>
                       <div
+                        role={"calendar-to-day-" + dayjs(day.date).format("D")}
                         className={cx(
                           "relative flex justify-center items-center p-4 my-0.5 cursor-pointer rounded-sm select-none",
                           {
@@ -216,7 +227,9 @@ export const RangeCalendar = ({
                         )}
                         onClick={() => {
                           if (day.isCurrentMonth) {
-                            onChange([targetValue[0], dayjs(day.date)]);
+                            setTargetValue([targetValue[0], dayjs(day.date)]);
+                            targetValue[0] &&
+                              onChange([targetValue[0], dayjs(day.date)]);
                           }
                         }}
                       >
@@ -231,6 +244,7 @@ export const RangeCalendar = ({
         </div>
         <div className="w-full flex flex-row justify-between items-center mt-4">
           <button
+            role="today-button"
             className="bg-[#1c87e5] py-2 px-4 flex justify-center items-center border-0 outline-none mx-2 text-white w-full cursor-pointer hover:bg-[#1c87e5e6]"
             onClick={() =>
               setTargetDate({

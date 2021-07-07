@@ -63,28 +63,30 @@ export const RangeInput = ({
   };
 
   const blurFormat = (value: string, input: "from" | "to") => {
-    if (input === "from") {
-      if (!dateValidator.test(value)) {
-        setInputFromValue("");
-        if (
-          dateValidator.test(inputToValue) &&
-          dayjs(inputToValue, dateFormat).isValid()
-        ) {
-          onBlur(0);
-        } else {
-          onBlur(2);
+    if (value) {
+      if (input === "from") {
+        if (!dateValidator.test(value)) {
+          setInputFromValue("");
+          if (
+            dateValidator.test(inputToValue) &&
+            dayjs(inputToValue, dateFormat).isValid()
+          ) {
+            onBlur(0);
+          } else {
+            onBlur(2);
+          }
         }
-      }
-    } else {
-      if (!dateValidator.test(value)) {
-        setInputToValue("");
-        if (
-          dateValidator.test(inputFromValue) &&
-          dayjs(inputFromValue, dateFormat).isValid()
-        ) {
-          onBlur(1);
-        } else {
-          onBlur(2);
+      } else {
+        if (!dateValidator.test(value)) {
+          setInputToValue("");
+          if (
+            dateValidator.test(inputFromValue) &&
+            dayjs(inputFromValue, dateFormat).isValid()
+          ) {
+            onBlur(1);
+          } else {
+            onBlur(2);
+          }
         }
       }
     }
@@ -97,13 +99,14 @@ export const RangeInput = ({
     >
       <div className="flex flex-row justify-start items-center">
         <input
+          role="rangepicker-input-from"
           data-cy="rangepicker-from"
           className="w-30 bg-transparent outline-none border-0"
           ref={inputRef}
           autoComplete="off"
-          name={name}
+          name={name + "-from"}
           type="text"
-          placeholder={placeholder ? placeholder : dateFormat}
+          placeholder={placeholder ? placeholder[0] : dateFormat}
           value={inputFromValue}
           onChange={(e) => autoFormat(e.currentTarget.value, "from")}
           onBlur={(e) => blurFormat(e.currentTarget.value, "from")}
@@ -115,13 +118,14 @@ export const RangeInput = ({
         />
         <img className="mx-4" src={rangeArrow} alt="range-arrow" />
         <input
+          role="rangepicker-input-to"
           data-cy="rangepicker-to"
           className="w-30 bg-transparent outline-none border-0"
           ref={inputToRef}
           autoComplete="off"
-          name={name}
+          name={name + "-to"}
           type="text"
-          placeholder={placeholder ? placeholder : dateFormat}
+          placeholder={placeholder ? placeholder[1] : dateFormat}
           value={inputToValue}
           onChange={(e) => autoFormat(e.currentTarget.value, "to")}
           onBlur={(e) => blurFormat(e.currentTarget.value, "to")}
@@ -134,6 +138,7 @@ export const RangeInput = ({
       </div>
       {allowClear && (
         <img
+          role="clearInput"
           className="mx-1 !cursor-pointer"
           src={clear}
           alt="clear-button"

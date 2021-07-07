@@ -1,4 +1,4 @@
-[![✅ testing](https://github.com/Wyesoftware/DateTimePicker/actions/workflows/main.yml/badge.svg)](https://github.com/Wyesoftware/DateTimePicker/actions/workflows/main.yml)
+[![unit-testing](https://github.com/Wyesoftware/DateTimePicker/actions/workflows/unit-testing.yml/badge.svg)](https://github.com/Wyesoftware/DateTimePicker/actions/workflows/unit-testing.yml)
 
 # DateTimePicker
 
@@ -34,14 +34,14 @@ This component has full typescript support.
 | -------------- | -------------------------------------------------------------------- | ----------------------------------------------- | ---------- | -------- |
 | dir            | Direction of the component                                           | "ltr" / "rtl"                                   | "ltr"      | false    |
 | dirFromElement | Set component direction from outside element                         | "html" / "body" / string (for id)               | -          | false    |
-| inputRef       | Ref for input                                                        | Ref<HTMLInputElement>                           | -          | false    |
+| inputRef       | Ref for input                                                        | Ref                                             | -          | false    |
 | name           | Form name                                                            | string                                          | -          | false    |
 | value          | The input content value                                              | string / Dayjs / string[] / Dayjs[] / undefined | -          | false    |
-| placeholder    | Custom input placeholder                                             | string                                          | -          | false    |
+| placeholder    | Custom input placeholder                                             | string / string[]                               | -          | false    |
 | onChange       | Callback when user input                                             | (value: Dayjs / Dayjs[] / undefined) => void    | -          | false    |
-| onBlur         | Callback when user click outside                                     | (e?: FocusEvent<HTMLInputElement>) => void      | -          | false    |
+| onBlur         | Callback when user click outside                                     | (e?: FocusEvent) => void                        | -          | false    |
 | mode           | DateTimeInput mode                                                   | "date" / "datetime" / "time" / "range"          | "datetime" | false    |
-| isCurrentMonth | Calendar set current month and year on load                          | boolean                                         | true       | false    |
+| isCurrentMonth | Calendar set current month and year on load (not for "range" mode)   | boolean                                         | true       | false    |
 | disabledDates  | Specify the date that cannot be selected                             | (day: Dayjs) => boolean                         | -          | false    |
 | language       | Choose language (english, hebrew, russian - available) or set custom | "en" / "he" / "ru" / custom                     | "en"       | false    |
 | disabled       | Set input disabled mode                                              | boolean                                         | false      | false    |

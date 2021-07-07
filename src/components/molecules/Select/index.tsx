@@ -31,8 +31,9 @@ export const Select = ({
   });
 
   return (
-    <div role="select" id="select-container">
+    <div id="select-container">
       <div
+        role="select"
         className="flex flex-row justify-between items-center border-1 border-[#e5e7eb] rounded-sm p-1 cursor-pointer focus-within:border-[#90caf9]"
         onClick={() => {
           if (isSelectOpen) {
